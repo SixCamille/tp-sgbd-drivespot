@@ -218,7 +218,7 @@ button:focus-visible {
 .metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin: 1rem 0;
+  margin: 1rem 0 0;
   overflow: hidden;
 }
 
@@ -248,6 +248,10 @@ button:focus-visible {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(19rem, 0.75fr);
   gap: 1rem;
+}
+
+.map-column {
+  min-width: 0;
 }
 
 .map-card {
@@ -299,6 +303,19 @@ button:focus-visible {
 
 .category-row strong {
   color: var(--red);
+}
+
+.category-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.category-swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: 0 0 auto;
+  border: 1px solid rgb(11 29 45 / 15%);
 }
 
 .poi-list {

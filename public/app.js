@@ -161,7 +161,7 @@ function renderClusters(clusters) {
       .map(
         (poi) =>
           `<li><button type="button" data-poi-id="${escapeHtml(poi.id)}">` +
-          `${escapeHtml(poi.categoryLabel)} — ${escapeHtml(poi.name)}</button></li>`,
+          `${escapeHtml(poi.categoryLabel)} · ${escapeHtml(poi.name)}</button></li>`,
       )
       .join('');
     L.rectangle(cellBounds, {
@@ -186,7 +186,11 @@ document.querySelector('#map').addEventListener('click', (event) => {
 function renderSummary(pois, clusters) {
   const counts = new Map();
   for (const poi of pois) {
-    const current = counts.get(poi.category) ?? { label: poi.categoryLabel, count: 0 };
+    const current = counts.get(poi.category) ?? {
+      category: poi.category,
+      label: poi.categoryLabel,
+      count: 0,
+    };
     current.count += 1;
     counts.set(poi.category, current);
   }
@@ -198,7 +202,16 @@ function renderSummary(pois, clusters) {
     for (const category of [...counts.values()].sort((a, b) => b.count - a.count)) {
       const row = document.createElement('div');
       row.className = 'category-row';
-      row.innerHTML = `<span>${escapeHtml(category.label)}</span><strong>${category.count}</strong>`;
+      const label = document.createElement('span');
+      label.className = 'category-name';
+      const swatch = document.createElement('span');
+      swatch.className = 'category-swatch';
+      swatch.style.backgroundColor = markerColor(category.category);
+      swatch.setAttribute('aria-hidden', 'true');
+      label.append(swatch, category.label);
+      const count = document.createElement('strong');
+      count.textContent = category.count;
+      row.append(label, count);
       elements.categorySummary.append(row);
     }
   }

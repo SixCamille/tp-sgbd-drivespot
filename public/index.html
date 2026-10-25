@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DriveSpots — préparation des parcours de conduite</title>
+    <title>DriveSpots | préparation des parcours de conduite</title>
     <link
       rel="stylesheet"
       href="/vendor/leaflet/leaflet.css"
@@ -46,27 +46,29 @@
     </header>
 
     <main>
-      <section class="metrics" aria-label="Informations de recherche">
-        <div>
-          <span>Durée d’analyse</span>
-          <strong id="search-time">—</strong>
-        </div>
-        <div>
-          <span>Données cartographiques</span>
-          <strong id="data-source">OpenStreetMap</strong>
-        </div>
-        <div>
-          <span>Aménagements détectés</span>
-          <strong id="result-count">—</strong>
-        </div>
-      </section>
-
       <section class="workspace">
-        <div class="map-card">
-          <div id="map" aria-label="Carte des aménagements routiers"></div>
-          <p class="map-note">
-            Cadre bleu : périmètre analysé · zones ambre : concentrations d’aménagements
-          </p>
+        <div class="map-column">
+          <div class="map-card">
+            <div id="map" aria-label="Carte des aménagements routiers"></div>
+            <p class="map-note">
+              Cadre bleu : périmètre analysé · zones ambre : concentrations d’aménagements
+            </p>
+          </div>
+
+          <section class="metrics" aria-label="Informations de recherche">
+            <div>
+              <span>Durée d’analyse</span>
+              <strong id="search-time">En attente</strong>
+            </div>
+            <div>
+              <span>Données cartographiques</span>
+              <strong id="data-source">OpenStreetMap</strong>
+            </div>
+            <div>
+              <span>Aménagements détectés</span>
+              <strong id="result-count">En attente</strong>
+            </div>
+          </section>
         </div>
 
         <aside class="results-panel" aria-labelledby="results-title">
