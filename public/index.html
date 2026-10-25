@@ -12,7 +12,7 @@
   </head>
   <body>
     <header class="hero">
-      <div class="hero-brand">
+      <div class="hero-inner">
         <img
           class="brand-logo"
           src="/assets/drivespots-logo.png"
@@ -20,35 +20,29 @@
           width="144"
           height="96"
         >
-        <div class="hero-copy">
-          <p class="eyebrow">DriveSpots</p>
-          <h1>Préparez vos parcours</h1>
+
+        <div class="hero-search">
+          <form id="search-form">
+            <div class="address-field">
+              <label for="address">Adresse de départ</label>
+              <input
+                id="address"
+                name="address"
+                type="search"
+                autocomplete="off"
+                aria-autocomplete="list"
+                aria-controls="suggestions"
+                aria-expanded="false"
+                placeholder="Ex. Place Bellecour, Lyon"
+                required
+              >
+              <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+            </div>
+            <button id="search-button" type="submit">Analyser la zone</button>
+          </form>
+          <p id="error-message" class="error" role="alert" hidden></p>
         </div>
       </div>
-
-      <div class="hero-search">
-        <form id="search-form">
-          <div class="address-field">
-            <label for="address">Adresse de départ</label>
-            <input
-              id="address"
-              name="address"
-              type="search"
-              autocomplete="off"
-              aria-autocomplete="list"
-              aria-controls="suggestions"
-              aria-expanded="false"
-              placeholder="Ex. Place Bellecour, Lyon"
-              required
-            >
-            <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
-          </div>
-          <button id="search-button" type="submit">Analyser la zone</button>
-        </form>
-        <p id="error-message" class="error" role="alert" hidden></p>
-      </div>
-
-      <span id="mode-badge" class="badge">Chargement…</span>
     </header>
 
     <main>

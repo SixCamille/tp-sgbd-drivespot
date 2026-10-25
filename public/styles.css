@@ -36,36 +36,27 @@ button {
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: auto minmax(22rem, 42rem) auto;
-  align-items: center;
-  gap: clamp(1rem, 2.5vw, 2.5rem);
-  min-height: 7rem;
-  padding: 0.75rem max(1.25rem, calc((100vw - 1440px) / 2));
   color: var(--ink);
   background: #ffffff;
   border-bottom: 3px solid var(--red);
 }
 
-.hero-brand {
-  display: flex;
+.hero-inner {
+  display: grid;
+  grid-template-columns: auto minmax(22rem, 42rem);
   align-items: center;
-  gap: 0.85rem;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  width: min(1440px, 100%);
+  min-height: 7rem;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
 }
 
 .brand-logo {
   width: 7.5rem;
   height: auto;
   flex: 0 0 auto;
-}
-
-.hero-copy {
-  min-width: 11rem;
-}
-
-.hero-copy .eyebrow {
-  margin-bottom: 0.2rem;
-  color: var(--red);
 }
 
 .hero-search {
@@ -104,7 +95,6 @@ h2 {
   text-transform: uppercase;
 }
 
-.badge,
 .cluster-count {
   display: inline-flex;
   align-items: center;
@@ -113,13 +103,6 @@ h2 {
   border-radius: 0;
   font-size: 0.8rem;
   font-weight: 700;
-}
-
-.badge {
-  flex: 0 0 auto;
-  color: var(--navy);
-  background: var(--navy-soft);
-  border: 1px solid #cfdae3;
 }
 
 main {
@@ -377,13 +360,8 @@ footer a {
 }
 
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: auto 1fr;
-  }
-
-  .hero-search {
-    grid-column: 1 / -1;
-    grid-row: 2;
+  .hero-inner {
+    grid-template-columns: auto minmax(18rem, 1fr);
   }
 
   .workspace {
@@ -400,17 +378,13 @@ footer a {
 }
 
 @media (max-width: 580px) {
-  .hero {
-    grid-template-columns: 1fr auto;
+  .hero-inner {
+    grid-template-columns: 1fr;
     padding: 1.5rem 1rem;
   }
 
   .brand-logo {
     width: 6rem;
-  }
-
-  .hero-copy h1 {
-    font-size: 1.1rem;
   }
 
   main {

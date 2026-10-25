@@ -10,7 +10,6 @@ const elements = {
   clusterCount: document.querySelector('#cluster-count'),
   categorySummary: document.querySelector('#category-summary'),
   poiList: document.querySelector('#poi-list'),
-  modeBadge: document.querySelector('#mode-badge'),
 };
 
 const map = L.map('map', { preferCanvas: true }).setView([45.7578, 4.832], 14);
@@ -294,12 +293,6 @@ async function initialize() {
   try {
     const response = await fetch('/api/config');
     const config = await response.json();
-    elements.modeBadge.textContent =
-      config.dataMode === 'fixture' ? 'Données locales' : 'Données OpenStreetMap en direct';
-    elements.modeBadge.title =
-      config.dataMode === 'fixture'
-        ? 'La recherche utilise un jeu de données local représentatif.'
-        : 'Les données sont récupérées en direct via Overpass.';
     elements.address.value = 'Place Bellecour, 69002 Lyon, France';
     if (config.dataMode === 'fixture') {
       selectedAddress = {
@@ -309,7 +302,7 @@ async function initialize() {
       };
     }
   } catch {
-    elements.modeBadge.textContent = 'Configuration indisponible';
+    elements.address.value = '';
   }
 }
 
