@@ -17,28 +17,16 @@
           class="brand-logo"
           src="/assets/drivespots-logo.png"
           alt="DriveSpots"
-          width="384"
-          height="256"
+          width="144"
+          height="96"
         >
         <div class="hero-copy">
-          <p class="eyebrow">Cartographie des zones d’apprentissage</p>
-          <h1>Préparez vos parcours de conduite</h1>
-          <p class="subtitle">
-            Identifiez les aménagements routiers utiles à vos prochaines leçons dans un
-            périmètre de 5 km.
-          </p>
+          <p class="eyebrow">DriveSpots</p>
+          <h1>Préparez vos parcours</h1>
         </div>
       </div>
-      <span id="mode-badge" class="badge">Chargement…</span>
-    </header>
 
-    <main>
-      <section class="search-panel" aria-labelledby="search-title">
-        <div>
-          <p class="section-kicker">Analyse opérationnelle</p>
-          <h2 id="search-title">Définir le point de départ</h2>
-          <p>DriveSpots analyse les aménagements routiers dans un carré de 5 km.</p>
-        </div>
+      <div class="hero-search">
         <form id="search-form">
           <div class="address-field">
             <label for="address">Adresse de départ</label>
@@ -57,13 +45,13 @@
           </div>
           <button id="search-button" type="submit">Analyser la zone</button>
         </form>
-        <p id="form-help" class="help">
-          Suggestions d’adresses fournies par GeoGouv. Vous pouvez aussi saisir des
-          coordonnées, par exemple 45.7578, 4.8320.
-        </p>
         <p id="error-message" class="error" role="alert" hidden></p>
-      </section>
+      </div>
 
+      <span id="mode-badge" class="badge">Chargement…</span>
+    </header>
+
+    <main>
       <section class="metrics" aria-label="Informations de recherche">
         <div>
           <span>Durée d’analyse</span>
