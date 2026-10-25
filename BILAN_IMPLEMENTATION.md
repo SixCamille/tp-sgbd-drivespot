@@ -4,7 +4,7 @@
 
 - serveur Express et interface statique ;
 - recherche en mode fixture sans réseau ;
-- suggestions d'adresses locales ou Photon ;
+- suggestions d'adresses locales ou GeoGouv ;
 - carré de 5 km tenant compte de la latitude ;
 - dix catégories OSM ;
 - normalisation node, way ouvert et way fermé ;
@@ -20,11 +20,11 @@
     npm test
     npm start
 
-Résultat du 25 octobre 2026 : installation réussie sans vulnérabilité signalée, 20 tests sur 20 réussis, contrôles syntaxiques réussis et parcours HTTP fixture vérifié. La page, Leaflet local et l'API répondent en HTTP 200 ; le résultat contient 15 POI, les 10 catégories et un cluster de 6 POI.
+Résultat du 25 octobre 2026 : installation réussie sans vulnérabilité signalée, 22 tests sur 22 réussis, contrôles syntaxiques réussis et parcours HTTP fixture vérifié. La page, Leaflet local et l'API répondent en HTTP 200 ; le résultat contient 15 POI, les 10 catégories et un cluster de 6 POI. Le contrat GeoGouv réel a été vérifié sur une réponse Place Bellecour et couvert par des tests unitaires sans réseau.
 
 La capture visuelle automatisée n'a pas été menée à son terme : l'outil de contrôle de Chrome n'a pas pu déterminer l'URL active avec assez de certitude et s'est arrêté par sécurité. Le parcours visuel manuel reste documenté dans le README.
 
-Le mode réel dépend de Photon, Overpass et des tuiles OpenStreetMap. Leur disponibilité et la qualité des tags ne sont pas garanties.
+Le mode réel dépend de GeoGouv, Overpass et des tuiles OpenStreetMap. Leur disponibilité et la qualité des tags ne sont pas garanties.
 
 ## Limites connues
 

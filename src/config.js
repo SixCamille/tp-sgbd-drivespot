@@ -17,7 +17,9 @@ export function loadConfig(environment = process.env) {
     fixtureDirectory: resolve(projectRoot, 'fixtures'),
     port: positiveInteger(environment.PORT, 3000),
     dataMode,
-    photonEndpoint: environment.PHOTON_ENDPOINT ?? 'https://photon.komoot.io/api/',
+    geogouvCompletionEndpoint:
+      environment.GEOGOUV_COMPLETION_ENDPOINT ??
+      'https://data.geopf.fr/geocodage/completion/',
     overpassEndpoint:
       environment.OVERPASS_ENDPOINT ?? 'https://overpass-api.de/api/interpreter',
     geocodingTimeoutMs: positiveInteger(environment.GEOCODING_TIMEOUT_MS, 8_000),

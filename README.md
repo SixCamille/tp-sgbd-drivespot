@@ -6,7 +6,7 @@ Cette version est volontairement **100 % sans base de données**. Elle sert de r
 
 ## Fonctionnalités
 
-- suggestions d'adresse avec Photon en mode réel ;
+- suggestions d'adresse avec le service d'autocomplétion GeoGouv en mode réel ;
 - saisie d'adresse utilisable sans sélectionner une suggestion, avec coordonnées en repli ;
 - récupération des données OSM via Overpass, ou fixtures locales hors ligne ;
 - carré de 5 km de côté, soit environ 2,5 km dans chaque direction ;
@@ -25,13 +25,13 @@ Node.js 22 LTS ou une version supérieure, puis :
     npm install
     npm run dev
 
-Ouvrir http://localhost:3000. Le mode par défaut est fixture : il fonctionne sans Photon ni Overpass et reproduit les dix catégories autour de l'adresse choisie. Leaflet est servi localement ; seules les tuiles de fond restent externes et leur absence n'empêche pas le rendu des POI et clusters. Pour lancer sans surveillance :
+Ouvrir http://localhost:3000. Le mode par défaut est fixture : il fonctionne sans GeoGouv ni Overpass et reproduit les dix catégories autour de l'adresse choisie. Leaflet est servi localement ; seules les tuiles de fond restent externes et leur absence n'empêche pas le rendu des POI et clusters. Pour lancer sans surveillance :
 
     npm start
 
 Pour utiliser les services publics réels, copier .env.example vers .env, définir DATA_MODE=live, renseigner un PUBLIC_USER_AGENT qui identifie le projet, puis relancer npm start. Node charge automatiquement ce fichier lorsqu'il existe.
 
-Le fichier .env est ignoré par Git. Aucune clé n'est nécessaire pour Photon, Overpass ou le mode démo.
+Le fichier .env est ignoré par Git. Aucune clé n'est nécessaire pour GeoGouv, Overpass ou le mode démo.
 
 ## Tests
 
@@ -127,5 +127,5 @@ Les mesures bout en bout incluent navigateur, API, réseau et services externes.
 
 ## Crédits
 
-Données et tuiles © contributeurs OpenStreetMap. Géocodage Photon. Données OSM via Overpass API. Carte interactive Leaflet. Le serveur standard de tuiles OSM doit rester réservé à un usage pédagogique raisonnable.
+Données et tuiles © contributeurs OpenStreetMap. Autocomplétion via le service de géocodage de la Géoplateforme GeoGouv, alimenté notamment par la Base Adresse Nationale. Données OSM via Overpass API. Carte interactive Leaflet. Le serveur standard de tuiles OSM doit rester réservé à un usage pédagogique raisonnable.
 

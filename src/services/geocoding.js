@@ -3,20 +3,19 @@ import { resolve } from 'node:path';
 import { AppError } from '../errors.js';
 import { requestJson } from '../utils/requestJson.js';
 
-function formatPhotonFeature(feature) {
-  const [longitude, latitude] = feature?.geometry?.coordinates ?? [];
+function formatGeogouvResult(result, index) {
+  const longitude = result?.x;
+  const latitude = result?.y;
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
-  const properties = feature.properties ?? {};
-  const label = [
-    properties.name || properties.street,
-    properties.housenumber,
-    properties.city,
-    properties.postcode,
-    properties.country,
-  ]
-    .filter(Boolean)
-    .join(' ');
-  return { id: properties.osm_id ?? label, label, latitude, longitude };
+  const label =
+    result.fulltext || [result.street, result.zipcode, result.city].filter(Boolean).join(' ');
+  if (!label) return null;
+  return {
+    id: `${longitude}:${latitude}:${index}`,
+    label,
+    latitude,
+    longitude,
+  };
 }
 
 export function createGeocodingService(config, { fetchImpl = globalThis.fetch } = {}) {
@@ -43,23 +42,23 @@ export function createGeocodingService(config, { fetchImpl = globalThis.fetch } 
         .slice(0, 5);
     }
 
-    const url = new URL(config.photonEndpoint);
-    url.searchParams.set('q', normalizedQuery);
-    url.searchParams.set('limit', '5');
-    url.searchParams.set('lang', 'fr');
+    const url = new URL(config.geogouvCompletionEndpoint);
+    url.searchParams.set('text', normalizedQuery);
+    url.searchParams.set('type', 'StreetAddress');
+    url.searchParams.set('maximumResponses', '5');
     const payload = await requestJson(url, {
       fetchImpl,
       timeoutMs: config.geocodingTimeoutMs,
       signal,
       headers: { 'User-Agent': config.userAgent },
     });
-    if (!Array.isArray(payload?.features)) {
+    if (!Array.isArray(payload?.results)) {
       throw new AppError('Le service de géocodage a renvoyé un format inattendu.', {
         status: 502,
         code: 'MALFORMED_GEOCODING_RESPONSE',
       });
     }
-    return payload.features.map(formatPhotonFeature).filter(Boolean);
+    return payload.results.map(formatGeogouvResult).filter(Boolean);
   }
 
   async function geocodeFirst(query, options) {
