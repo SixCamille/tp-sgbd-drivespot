@@ -8,7 +8,7 @@ Le fichier src/providers/index.js sélectionne un fournisseur qui expose :
 
     provider.fetchPois({ center, bounds, signal })
 
-Dans la suite, un fournisseur composite pourra vérifier si la zone est couverte, lire la base si elle l'est, ou appeler Overpass puis persister le résultat. Le commentaire TODO STUDENTS marque ce point.
+Dans une future version, un fournisseur composite pourra vérifier si la zone est couverte, lire la base si elle l'est, ou appeler Overpass puis persister le résultat. Un commentaire dédié marque ce point d’extension dans le code.
 
 ## 2. Repository et stockage
 
@@ -19,11 +19,11 @@ Le point d'orchestration est src/services/search.js, après la normalisation. Un
     repository.findPois(bounds)
     repository.saveClusters(searchId, clusters)
 
-Les signatures exactes restent à concevoir par chaque groupe. Le socle ne fournit ni fausse implémentation SQL ni schéma imposé.
+Les signatures exactes restent à concevoir selon le SGBD retenu. Le socle ne fournit ni fausse implémentation SQL ni schéma imposé.
 
 ## 3. Calcul des clusters
 
-La référence JavaScript est src/services/clusters.js. Son appel dans src/services/search.js est marqué TODO STUDENTS.
+La référence JavaScript est src/services/clusters.js. Son appel dans src/services/search.js contient un point d’extension explicite.
 
 Ce comportement devra être reproduit avec ROUND, GROUP BY, COUNT et AVG. Le seuil reste cinq POI. Conserver la version JavaScript au début permet de vérifier la parité de la version SQL.
 
@@ -39,7 +39,7 @@ Le chronomètre métier se trouve dans public/app.js. Il mesure le clic jusqu'au
 
 La réponse de POST /api/search doit continuer à fournir center, bounds, pois, clusters et source. L'interface reste ainsi comparable entre OSM, premier import et lecture en base.
 
-## 6. Fichiers probablement modifiés par les étudiants
+## 6. Fichiers concernés par une future couche de persistance
 
 - src/providers/index.js : sélectionner le nouveau fournisseur ;
 - nouveau dossier src/repositories/ : accès au SGBD ;

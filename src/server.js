@@ -6,7 +6,7 @@ const app = createApp(config);
 
 const server = app.listen(config.port, () => {
   console.log(
-    `DriveSpot écoute sur http://localhost:${config.port} (mode ${config.dataMode}).`,
+    `DriveSpots écoute sur http://localhost:${config.port} (mode ${config.dataMode}).`,
   );
 });
 

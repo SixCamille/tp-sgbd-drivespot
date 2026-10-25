@@ -15,7 +15,7 @@
       "id": 1002,
       "lat": 45.75718,
       "lon": 4.83219,
-      "tags": { "highway": "stop", "name": "Stop de démonstration" }
+      "tags": { "highway": "stop", "name": "Stop rue Édouard-Herriot" }
     },
     {
       "type": "node",
@@ -50,7 +50,7 @@
       "id": 1007,
       "lat": 45.7592,
       "lon": 4.8341,
-      "tags": { "railway": "level_crossing", "name": "Passage à niveau fictif" }
+      "tags": { "railway": "level_crossing", "name": "Passage à niveau de la Presqu’île" }
     },
     {
       "type": "node",
@@ -91,7 +91,7 @@
     {
       "type": "way",
       "id": 2003,
-      "tags": { "highway": "cycleway", "cycleway": "crossing", "name": "Traversée cyclable démo" },
+      "tags": { "highway": "cycleway", "cycleway": "crossing", "name": "Traversée cyclable rue de la République" },
       "geometry": [
         { "lat": 45.7587, "lon": 4.8350 },
         { "lat": 45.7588, "lon": 4.8354 }

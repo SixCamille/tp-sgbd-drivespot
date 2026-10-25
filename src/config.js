@@ -26,7 +26,7 @@ export function loadConfig(environment = process.env) {
     overpassTimeoutMs: positiveInteger(environment.OVERPASS_TIMEOUT_MS, 30_000),
     userAgent:
       environment.PUBLIC_USER_AGENT ??
-      'DriveSpot-TP/1.0 (educational project; configure PUBLIC_USER_AGENT)',
+      'DriveSpots/1.0 (configure PUBLIC_USER_AGENT with a contact address)',
   };
 }
 

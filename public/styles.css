@@ -1,15 +1,17 @@
 :root {
   color-scheme: light;
-  --ink: #13231f;
-  --muted: #60706b;
-  --paper: #f4f7f5;
+  --ink: #0b1d2d;
+  --muted: #63717f;
+  --paper: #f4f6f8;
   --card: #ffffff;
-  --line: #dce5e1;
-  --green: #176b55;
-  --green-dark: #0d4a3b;
-  --green-soft: #def1e9;
-  --orange: #dd7f2a;
-  --red: #a43a33;
+  --line: #dce2e8;
+  --navy: #0b1d2d;
+  --navy-soft: #e8eef3;
+  --red: #ec171c;
+  --red-dark: #c7090f;
+  --red-soft: #fff0f0;
+  --amber: #e59b00;
+  --amber-soft: #fff3d6;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -35,14 +37,32 @@ button {
 
 .hero {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  padding: 2.25rem max(1.25rem, calc((100vw - 1440px) / 2));
-  color: white;
+  min-height: 16.5rem;
+  padding: 1.5rem max(1.25rem, calc((100vw - 1440px) / 2));
+  color: var(--ink);
   background:
-    radial-gradient(circle at 85% 5%, rgb(255 255 255 / 14%), transparent 28rem),
-    var(--green-dark);
+    radial-gradient(circle at 92% 0%, rgb(236 23 28 / 11%), transparent 28rem),
+    linear-gradient(135deg, #ffffff 0%, #f7f9fb 58%, #eef2f5 100%);
+  border-bottom: 4px solid var(--red);
+}
+
+.hero-brand {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 3rem);
+}
+
+.brand-logo {
+  width: clamp(13rem, 23vw, 20rem);
+  height: auto;
+  flex: 0 0 auto;
+}
+
+.hero-copy {
+  max-width: 43rem;
 }
 
 h1,
@@ -53,8 +73,10 @@ p {
 
 h1 {
   margin-bottom: 0.35rem;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  line-height: 1;
+  max-width: 13ch;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
 }
 
 h2 {
@@ -64,7 +86,10 @@ h2 {
 
 .subtitle {
   margin-bottom: 0;
-  color: #dcece7;
+  max-width: 45rem;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.55;
 }
 
 .eyebrow {
@@ -88,8 +113,10 @@ h2 {
 }
 
 .badge {
-  color: var(--green-dark);
-  background: #f0fff9;
+  flex: 0 0 auto;
+  color: var(--navy);
+  background: var(--navy-soft);
+  border: 1px solid #cfdae3;
 }
 
 main {
@@ -105,7 +132,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--card);
-  box-shadow: 0 10px 35px rgb(25 58 48 / 5%);
+  box-shadow: 0 10px 35px rgb(11 29 45 / 6%);
 }
 
 .search-panel {
@@ -118,6 +145,15 @@ main {
 .search-panel p {
   margin-bottom: 0;
   color: var(--muted);
+}
+
+.search-panel .section-kicker {
+  margin-bottom: 0.4rem;
+  color: var(--red);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 form {
@@ -150,7 +186,7 @@ input {
 
 input:focus,
 button:focus-visible {
-  outline: 3px solid rgb(23 107 85 / 25%);
+  outline: 3px solid rgb(236 23 28 / 22%);
   outline-offset: 2px;
 }
 
@@ -161,11 +197,12 @@ button:focus-visible {
   border-radius: 10px;
   color: white;
   font-weight: 750;
-  background: var(--green);
+  background: var(--red);
+  box-shadow: 0 6px 16px rgb(236 23 28 / 18%);
 }
 
 #search-button:hover {
-  background: var(--green-dark);
+  background: var(--red-dark);
 }
 
 #search-button:disabled {
@@ -187,7 +224,7 @@ button:focus-visible {
   border-radius: 10px;
   list-style: none;
   background: white;
-  box-shadow: 0 12px 30px rgb(20 50 41 / 18%);
+  box-shadow: 0 12px 30px rgb(11 29 45 / 18%);
 }
 
 .suggestions button {
@@ -202,7 +239,7 @@ button:focus-visible {
 
 .suggestions button:hover,
 .suggestions button:focus {
-  background: var(--green-soft);
+  background: var(--red-soft);
 }
 
 .help,
@@ -282,12 +319,12 @@ button:focus-visible {
 }
 
 .results-heading .eyebrow {
-  color: var(--green);
+  color: var(--red);
 }
 
 .cluster-count {
-  color: #7d4212;
-  background: #fff0dd;
+  color: #775000;
+  background: var(--amber-soft);
 }
 
 .category-row {
@@ -299,7 +336,7 @@ button:focus-visible {
 }
 
 .category-row strong {
-  color: var(--green);
+  color: var(--red);
 }
 
 .poi-list {
@@ -323,7 +360,7 @@ button:focus-visible {
 }
 
 .poi-list button:hover {
-  color: var(--green);
+  color: var(--red);
 }
 
 .poi-list small,
@@ -340,7 +377,7 @@ button:focus-visible {
 .cluster-popup button {
   border: 0;
   padding: 0.15rem 0;
-  color: var(--green);
+  color: var(--red);
   text-align: left;
   background: transparent;
 }
@@ -357,10 +394,24 @@ footer p {
 }
 
 footer a {
-  color: var(--green);
+  color: var(--red-dark);
 }
 
 @media (max-width: 900px) {
+  .hero {
+    align-items: flex-start;
+  }
+
+  .hero-brand {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .brand-logo {
+    width: 13rem;
+  }
+
   .search-panel,
   .workspace {
     grid-template-columns: 1fr;
@@ -382,6 +433,7 @@ footer a {
 
 @media (max-width: 580px) {
   .hero {
+    flex-direction: column;
     padding: 1.5rem 1rem;
   }
 

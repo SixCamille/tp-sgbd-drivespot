@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DriveSpot — aménagements pour leçons de conduite</title>
+    <title>DriveSpots — préparation des parcours de conduite</title>
     <link
       rel="stylesheet"
       href="/vendor/leaflet/leaflet.css"
@@ -12,10 +12,22 @@
   </head>
   <body>
     <header class="hero">
-      <div>
-        <p class="eyebrow">TP B3 Développement Web</p>
-        <h1>DriveSpot</h1>
-        <p class="subtitle">Repérez les aménagements routiers utiles dans un carré de 5 km.</p>
+      <div class="hero-brand">
+        <img
+          class="brand-logo"
+          src="/assets/drivespots-logo.png"
+          alt="DriveSpots"
+          width="384"
+          height="256"
+        >
+        <div class="hero-copy">
+          <p class="eyebrow">Cartographie des zones d’apprentissage</p>
+          <h1>Préparez vos parcours de conduite</h1>
+          <p class="subtitle">
+            Identifiez les aménagements routiers utiles à vos prochaines leçons dans un
+            périmètre de 5 km.
+          </p>
+        </div>
       </div>
       <span id="mode-badge" class="badge">Chargement…</span>
     </header>
@@ -23,12 +35,13 @@
     <main>
       <section class="search-panel" aria-labelledby="search-title">
         <div>
-          <h2 id="search-title">Choisir une zone</h2>
-          <p>Recherchez une adresse, puis explorez les points OpenStreetMap autour.</p>
+          <p class="section-kicker">Analyse opérationnelle</p>
+          <h2 id="search-title">Définir le point de départ</h2>
+          <p>DriveSpots analyse les aménagements routiers dans un carré de 5 km.</p>
         </div>
         <form id="search-form">
           <div class="address-field">
-            <label for="address">Adresse</label>
+            <label for="address">Adresse de départ</label>
             <input
               id="address"
               name="address"
@@ -42,26 +55,26 @@
             >
             <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
           </div>
-          <button id="search-button" type="submit">Rechercher</button>
+          <button id="search-button" type="submit">Analyser la zone</button>
         </form>
         <p id="form-help" class="help">
-          Les suggestions utilisent GeoGouv en mode réel. Sans géocodage, saisissez aussi
-          des coordonnées comme 45.7578, 4.8320.
+          Suggestions d’adresses fournies par GeoGouv. Vous pouvez aussi saisir des
+          coordonnées, par exemple 45.7578, 4.8320.
         </p>
         <p id="error-message" class="error" role="alert" hidden></p>
       </section>
 
       <section class="metrics" aria-label="Informations de recherche">
         <div>
-          <span>Temps de recherche</span>
+          <span>Durée d’analyse</span>
           <strong id="search-time">—</strong>
         </div>
         <div>
-          <span>Source des données</span>
+          <span>Données cartographiques</span>
           <strong id="data-source">OpenStreetMap</strong>
         </div>
         <div>
-          <span>Résultats</span>
+          <span>Aménagements détectés</span>
           <strong id="result-count">—</strong>
         </div>
       </section>
@@ -69,16 +82,18 @@
       <section class="workspace">
         <div class="map-card">
           <div id="map" aria-label="Carte des aménagements routiers"></div>
-          <p class="map-note">Carré bleu : zone demandée · cases orange : clusters métier</p>
+          <p class="map-note">
+            Cadre bleu : périmètre analysé · zones ambre : concentrations d’aménagements
+          </p>
         </div>
 
         <aside class="results-panel" aria-labelledby="results-title">
           <div class="results-heading">
             <div>
-              <p class="eyebrow">Synthèse</p>
-              <h2 id="results-title">Points d’intérêt</h2>
+              <p class="eyebrow">Synthèse de la zone</p>
+              <h2 id="results-title">Aménagements routiers</h2>
             </div>
-            <span id="cluster-count" class="cluster-count">0 cluster</span>
+            <span id="cluster-count" class="cluster-count">0 zone dense</span>
           </div>
           <div id="category-summary" class="category-summary">
             <p class="empty-state">Lancez une recherche pour afficher les catégories.</p>

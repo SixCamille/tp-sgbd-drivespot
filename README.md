@@ -1,8 +1,8 @@
-# DriveSpot — socle Node.js sans base de données
+# DriveSpots — cartographie des parcours de conduite
 
-DriveSpot est le projet de départ du TP SGBD des B3 Développement Web de MyDigitalSchool des 2 et 3 novembre 2026. Une auto-école peut choisir une adresse et visualiser les aménagements routiers utiles aux leçons de conduite dans un carré de **5 km × 5 km** centré sur cette adresse.
+DriveSpots aide les responsables d’agence et les moniteurs d’auto-école à préparer leurs parcours. À partir d’une adresse, l’application visualise les aménagements routiers utiles aux leçons de conduite dans un carré de **5 km × 5 km** centré sur ce point de départ.
 
-Cette version est volontairement **100 % sans base de données**. Elle sert de référence fonctionnelle avant que les étudiants ajoutent la persistance et comparent plusieurs SGBD.
+Cette version est volontairement **100 % sans base de données**. Elle constitue une référence fonctionnelle avant l’ajout éventuel d’une couche de persistance et la comparaison de plusieurs SGBD.
 
 ## Fonctionnalités
 
@@ -42,7 +42,7 @@ Les tests couvrent la bounding box, les nodes et ways, le sommet fermé répét�
 ## Parcours de vérification manuelle
 
 1. Lancer en mode fixture.
-2. Choisir « Place Bellecour » et cliquer sur **Rechercher**.
+2. Choisir « Place Bellecour » et cliquer sur **Analyser la zone**.
 3. Vérifier le carré bleu de 5 km, les 15 POI et la case orange de 6 POI.
 4. Ouvrir le cluster et sélectionner un POI de sa liste.
 5. Vérifier que les dix catégories apparaissent dans la synthèse.
@@ -114,7 +114,7 @@ Les requêtes publiques ont un timeout, un espacement minimal côté Overpass et
 
 Références de tagging vérifiées : documentation officielle [Overpass QL](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL), [highway=crossing](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dcrossing), [cycleway=crossing](https://wiki.openstreetmap.org/wiki/Tag:cycleway%3Dcrossing) et [traffic_calming](https://wiki.openstreetmap.org/wiki/Key:traffic_calming). Les deux modificateurs Overpass `geom` et `center` sont demandés : la géométrie complète est prioritaire et le centre de bounding box ne sert que de repli.
 
-## Progression SQL laissée aux étudiants
+## Feuille de route pour la persistance
 
 1. Mesurer et comprendre cette version 100 % OSM.
 2. Constater les limites et dépendances des appels externes.
@@ -127,5 +127,5 @@ Les mesures bout en bout incluent navigateur, API, réseau et services externes.
 
 ## Crédits
 
-Données et tuiles © contributeurs OpenStreetMap. Autocomplétion via le service de géocodage de la Géoplateforme GeoGouv, alimenté notamment par la Base Adresse Nationale. Données OSM via Overpass API. Carte interactive Leaflet. Le serveur standard de tuiles OSM doit rester réservé à un usage pédagogique raisonnable.
+Données et tuiles © contributeurs OpenStreetMap. Autocomplétion via le service de géocodage de la Géoplateforme GeoGouv, alimenté notamment par la Base Adresse Nationale. Données OSM via Overpass API. Carte interactive Leaflet. L’utilisation du serveur standard de tuiles OSM doit respecter sa politique d’usage.
 

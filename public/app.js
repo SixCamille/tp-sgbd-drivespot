@@ -110,18 +110,18 @@ document.addEventListener('click', (event) => {
 
 function markerColor(category) {
   const colors = {
-    giratoire: '#7a4db3',
-    mini_giratoire: '#9a63c8',
-    feu_tricolore: '#d43e35',
-    stop: '#b21f2d',
-    cedez_le_passage: '#d16b35',
-    passage_pieton: '#2877b7',
-    dos_ane: '#876c16',
-    plateau_ralentisseur: '#b08820',
-    passage_niveau: '#27333d',
-    traversee_cyclable: '#18865c',
+    giratoire: '#ec171c',
+    mini_giratoire: '#ff5349',
+    feu_tricolore: '#c7090f',
+    stop: '#99151a',
+    cedez_le_passage: '#ee7030',
+    passage_pieton: '#1f628d',
+    dos_ane: '#9a7410',
+    plateau_ralentisseur: '#d78e00',
+    passage_niveau: '#0b1d2d',
+    traversee_cyclable: '#2a7a62',
   };
-  return colors[category] ?? '#176b55';
+  return colors[category] ?? '#0b1d2d';
 }
 
 function focusPoi(id) {
@@ -166,13 +166,13 @@ function renderClusters(clusters) {
       )
       .join('');
     L.rectangle(cellBounds, {
-      color: '#dd7f2a',
+      color: '#e59b00',
       weight: 3,
-      fillColor: '#f3a65e',
+      fillColor: '#ffc43d',
       fillOpacity: 0.24,
     })
       .bindPopup(
-        `<div class="cluster-popup"><strong>${cluster.count} POI dans cette case</strong>` +
+        `<div class="cluster-popup"><strong>${cluster.count} aménagements dans cette zone</strong>` +
           `<ul>${list}</ul></div>`,
       )
       .addTo(clusterLayer);
@@ -206,7 +206,7 @@ function renderSummary(pois, clusters) {
 
   elements.poiList.replaceChildren();
   const title = document.createElement('h3');
-  title.textContent = 'Tous les POI';
+  title.textContent = 'Tous les aménagements';
   elements.poiList.append(title);
   for (const poi of pois) {
     const button = document.createElement('button');
@@ -218,8 +218,10 @@ function renderSummary(pois, clusters) {
     elements.poiList.append(button);
   }
 
-  elements.clusterCount.textContent = `${clusters.length} cluster${clusters.length > 1 ? 's' : ''}`;
-  elements.count.textContent = `${pois.length} POI`;
+  elements.clusterCount.textContent =
+    `${clusters.length} zone${clusters.length > 1 ? 's' : ''} ` +
+    `dense${clusters.length > 1 ? 's' : ''}`;
+  elements.count.textContent = `${pois.length} aménagement${pois.length > 1 ? 's' : ''}`;
 }
 
 function renderBounds(bounds) {
@@ -229,7 +231,7 @@ function renderBounds(bounds) {
     [bounds.north, bounds.east],
   ];
   boundsLayer = L.rectangle(leafletBounds, {
-    color: '#2877b7',
+    color: '#1f628d',
     weight: 2,
     fillOpacity: 0.03,
   }).addTo(map);
@@ -251,7 +253,7 @@ elements.form.addEventListener('submit', async (event) => {
   const thisRequest = ++requestSequence;
   const startedAt = performance.now();
   elements.button.disabled = true;
-  elements.button.textContent = 'Recherche…';
+  elements.button.textContent = 'Analyse…';
   elements.time.textContent = 'En cours…';
 
   const body = selectedAddress
@@ -283,7 +285,7 @@ elements.form.addEventListener('submit', async (event) => {
   } finally {
     if (thisRequest === requestSequence) {
       elements.button.disabled = false;
-      elements.button.textContent = 'Rechercher';
+      elements.button.textContent = 'Analyser la zone';
     }
   }
 });
@@ -293,10 +295,10 @@ async function initialize() {
     const response = await fetch('/api/config');
     const config = await response.json();
     elements.modeBadge.textContent =
-      config.dataMode === 'fixture' ? 'Mode démo hors ligne' : 'Mode OpenStreetMap réel';
+      config.dataMode === 'fixture' ? 'Données locales' : 'Données OpenStreetMap en direct';
     elements.modeBadge.title =
       config.dataMode === 'fixture'
-        ? 'Les réponses OSM sont simulées par des fixtures locales.'
+        ? 'La recherche utilise un jeu de données local représentatif.'
         : 'Les données sont récupérées en direct via Overpass.';
     elements.address.value = 'Place Bellecour, 69002 Lyon, France';
     if (config.dataMode === 'fixture') {

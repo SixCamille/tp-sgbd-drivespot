@@ -1,8 +1,8 @@
 {
-  "name": "drivespot-tp",
+  "name": "drivespots",
   "version": "1.0.0",
   "private": true,
-  "description": "Socle Node.js sans base de données pour le TP DriveSpot",
+  "description": "Cartographie des aménagements routiers pour la préparation des leçons de conduite",
   "type": "module",
   "scripts": {
     "start": "node --env-file-if-exists=.env src/server.js",
