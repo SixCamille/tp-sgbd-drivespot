@@ -1,0 +1,24 @@
+export class AppError extends Error {
+  constructor(message, { status = 500, code = 'INTERNAL_ERROR', cause } = {}) {
+    super(message, { cause });
+    this.name = 'AppError';
+    this.status = status;
+    this.code = code;
+  }
+}
+
+export function publicError(error) {
+  if (error instanceof AppError) {
+    return { status: error.status, body: { error: error.message, code: error.code } };
+  }
+
+  console.error(error);
+  return {
+    status: 500,
+    body: {
+      error: 'Une erreur inattendue empêche la recherche.',
+      code: 'INTERNAL_ERROR',
+    },
+  };
+}
+

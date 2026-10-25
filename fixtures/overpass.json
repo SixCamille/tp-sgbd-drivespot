@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "center": { "latitude": 45.7578, "longitude": 4.832 }
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 1001,
+      "lat": 45.75712,
+      "lon": 4.83212,
+      "tags": { "highway": "traffic_signals", "name": "Feux quai Saint-Antoine" }
+    },
+    {
+      "type": "node",
+      "id": 1002,
+      "lat": 45.75718,
+      "lon": 4.83219,
+      "tags": { "highway": "stop", "name": "Stop de démonstration" }
+    },
+    {
+      "type": "node",
+      "id": 1003,
+      "lat": 45.75725,
+      "lon": 4.83227,
+      "tags": { "highway": "give_way" }
+    },
+    {
+      "type": "node",
+      "id": 1004,
+      "lat": 45.75731,
+      "lon": 4.83234,
+      "tags": { "highway": "crossing", "crossing": "marked" }
+    },
+    {
+      "type": "node",
+      "id": 1005,
+      "lat": 45.75738,
+      "lon": 4.83240,
+      "tags": { "highway": "crossing", "bicycle": "yes", "name": "Traversée mixte" }
+    },
+    {
+      "type": "node",
+      "id": 1006,
+      "lat": 45.75744,
+      "lon": 4.83246,
+      "tags": { "highway": "mini_roundabout" }
+    },
+    {
+      "type": "node",
+      "id": 1007,
+      "lat": 45.7592,
+      "lon": 4.8341,
+      "tags": { "railway": "level_crossing", "name": "Passage à niveau fictif" }
+    },
+    {
+      "type": "node",
+      "id": 1008,
+      "lat": 45.7558,
+      "lon": 4.8298,
+      "tags": { "traffic_calming": "bump" }
+    },
+    {
+      "type": "node",
+      "id": 1009,
+      "lat": 45.7559,
+      "lon": 4.8300,
+      "tags": { "traffic_calming": "table" }
+    },
+    {
+      "type": "way",
+      "id": 2001,
+      "tags": { "junction": "roundabout", "name": "Giratoire des quais" },
+      "geometry": [
+        { "lat": 45.7600, "lon": 4.8317 },
+        { "lat": 45.7602, "lon": 4.8320 },
+        { "lat": 45.7600, "lon": 4.8323 },
+        { "lat": 45.7598, "lon": 4.8320 },
+        { "lat": 45.7600, "lon": 4.8317 }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 2002,
+      "tags": { "traffic_calming": "hump", "name": "Ralentisseur rue de Brest" },
+      "geometry": [
+        { "lat": 45.7564, "lon": 4.8287 },
+        { "lat": 45.7565, "lon": 4.8290 },
+        { "lat": 45.7568, "lon": 4.8292 }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 2003,
+      "tags": { "highway": "cycleway", "cycleway": "crossing", "name": "Traversée cyclable démo" },
+      "geometry": [
+        { "lat": 45.7587, "lon": 4.8350 },
+        { "lat": 45.7588, "lon": 4.8354 }
+      ]
+    },
+    {
+      "type": "way",
+      "id": 2004,
+      "tags": { "traffic_calming": "table", "name": "Plateau rue Mercière" },
+      "geometry": [
+        { "lat": 45.7581, "lon": 4.8301 },
+        { "lat": 45.7582, "lon": 4.8304 }
+      ]
+    },
+    {
+      "type": "node",
+      "id": 1010,
+      "lat": 45.7542,
+      "lon": 4.8339,
+      "tags": { "highway": "crossing", "name": "Passage piéton sud" }
+    },
+    {
+      "type": "node",
+      "id": 1011,
+      "lat": 45.7611,
+      "lon": 4.8289,
+      "tags": { "highway": "stop", "name": "Stop nord" }
+    }
+  ]
+}
+

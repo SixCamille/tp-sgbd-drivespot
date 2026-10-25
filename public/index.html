@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DriveSpot — aménagements pour leçons de conduite</title>
+    <link
+      rel="stylesheet"
+      href="/vendor/leaflet/leaflet.css"
+    >
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">TP B3 Développement Web</p>
+        <h1>DriveSpot</h1>
+        <p class="subtitle">Repérez les aménagements routiers utiles dans un carré de 5 km.</p>
+      </div>
+      <span id="mode-badge" class="badge">Chargement…</span>
+    </header>
+
+    <main>
+      <section class="search-panel" aria-labelledby="search-title">
+        <div>
+          <h2 id="search-title">Choisir une zone</h2>
+          <p>Recherchez une adresse, puis explorez les points OpenStreetMap autour.</p>
+        </div>
+        <form id="search-form">
+          <div class="address-field">
+            <label for="address">Adresse</label>
+            <input
+              id="address"
+              name="address"
+              type="search"
+              autocomplete="off"
+              aria-autocomplete="list"
+              aria-controls="suggestions"
+              aria-expanded="false"
+              placeholder="Ex. Place Bellecour, Lyon"
+              required
+            >
+            <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+          </div>
+          <button id="search-button" type="submit">Rechercher</button>
+        </form>
+        <p id="form-help" class="help">
+          Les suggestions utilisent Photon en mode réel. Sans géocodage, saisissez aussi
+          des coordonnées comme 45.7578, 4.8320.
+        </p>
+        <p id="error-message" class="error" role="alert" hidden></p>
+      </section>
+
+      <section class="metrics" aria-label="Informations de recherche">
+        <div>
+          <span>Temps de recherche</span>
+          <strong id="search-time">—</strong>
+        </div>
+        <div>
+          <span>Source des données</span>
+          <strong id="data-source">OpenStreetMap</strong>
+        </div>
+        <div>
+          <span>Résultats</span>
+          <strong id="result-count">—</strong>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <div class="map-card">
+          <div id="map" aria-label="Carte des aménagements routiers"></div>
+          <p class="map-note">Carré bleu : zone demandée · cases orange : clusters métier</p>
+        </div>
+
+        <aside class="results-panel" aria-labelledby="results-title">
+          <div class="results-heading">
+            <div>
+              <p class="eyebrow">Synthèse</p>
+              <h2 id="results-title">Points d’intérêt</h2>
+            </div>
+            <span id="cluster-count" class="cluster-count">0 cluster</span>
+          </div>
+          <div id="category-summary" class="category-summary">
+            <p class="empty-state">Lancez une recherche pour afficher les catégories.</p>
+          </div>
+          <div id="poi-list" class="poi-list"></div>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Données © contributeurs
+        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+          OpenStreetMap
+        </a>
+        · Tuiles © OpenStreetMap
+      </p>
+    </footer>
+
+    <script src="/vendor/leaflet/leaflet.js"></script>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
+
