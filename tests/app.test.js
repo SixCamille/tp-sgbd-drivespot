@@ -5,7 +5,30 @@ import { loadConfig } from '../src/config.js';
 
 async function withServer(action) {
   const config = loadConfig({ DATA_MODE: 'fixture' });
-  const server = createApp(config).listen(0);
+  const fetchImpl = async (url) => {
+    const query = new URL(url).searchParams.get('text');
+    const isPartDieu = query.toLocaleLowerCase('fr').includes('part-dieu');
+    return {
+      ok: true,
+      json: async () => ({
+        status: 'OK',
+        results: [
+          isPartDieu
+            ? {
+                x: 4.859,
+                y: 45.7606,
+                fulltext: 'Gare Part-Dieu, 69003 Lyon',
+              }
+            : {
+                x: 4.832,
+                y: 45.7578,
+                fulltext: 'Place Bellecour, 69002 Lyon',
+              },
+        ],
+      }),
+    };
+  };
+  const server = createApp(config, { fetchImpl }).listen(0);
   await new Promise((resolve) => server.once('listening', resolve));
   try {
     const { port } = server.address();

@@ -1,5 +1,3 @@
-import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
 import { AppError } from '../errors.js';
 import { requestJson } from '../utils/requestJson.js';
 
@@ -19,28 +17,9 @@ function formatGeogouvResult(result, index) {
 }
 
 export function createGeocodingService(config, { fetchImpl = globalThis.fetch } = {}) {
-  let fixturePromise;
-  const loadFixtures = () => {
-    fixturePromise ??= readFile(resolve(config.fixtureDirectory, 'addresses.json'), 'utf8').then(
-      JSON.parse,
-    );
-    return fixturePromise;
-  };
-
   async function suggest(query, { signal } = {}) {
     const normalizedQuery = query.trim();
     if (normalizedQuery.length < 3) return [];
-
-    if (config.dataMode === 'fixture') {
-      const addresses = await loadFixtures();
-      const words = normalizedQuery.toLocaleLowerCase('fr').split(/\s+/);
-      return addresses
-        .filter((address) => {
-          const label = address.label.toLocaleLowerCase('fr');
-          return words.every((word) => label.includes(word));
-        })
-        .slice(0, 5);
-    }
 
     const url = new URL(config.geogouvCompletionEndpoint);
     url.searchParams.set('text', normalizedQuery);

@@ -3,14 +3,13 @@ import test from 'node:test';
 import { createGeocodingService } from '../src/services/geocoding.js';
 
 const config = {
-  dataMode: 'live',
-  fixtureDirectory: '',
+  dataMode: 'fixture',
   geogouvCompletionEndpoint: 'https://data.geopf.test/geocodage/completion/',
   geocodingTimeoutMs: 1_000,
   userAgent: 'DriveSpot-Test/1.0',
 };
 
-test('transforme les résultats GeoGouv et envoie les paramètres d’autocomplétion', async () => {
+test('utilise GeoGouv même lorsque les POI proviennent des fixtures', async () => {
   let requestedUrl;
   const fetchImpl = async (url) => {
     requestedUrl = new URL(url);
