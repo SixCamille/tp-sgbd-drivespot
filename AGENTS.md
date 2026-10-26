@@ -24,7 +24,7 @@ La persistance et le travail SQL sont volontairement réservés aux étudiants. 
 ## Vérification et fin de tâche
 
 - Exécuter `npm test` après toute modification fonctionnelle.
-- Vérifier le parcours hors ligne avec `DATA_MODE=fixture`.
+- Vérifier le parcours automatisé hors ligne avec les doubles de services externes.
 - Une tâche est terminée quand le changement demandé est implémenté, vérifié et documenté si nécessaire.
 - Ne jamais committer de `.env`, clé API, token, secret, export sensible, log privé ou donnée réelle de compte.
 

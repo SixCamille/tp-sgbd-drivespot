@@ -9,14 +9,10 @@ function positiveInteger(value, fallback) {
 }
 
 export function loadConfig(environment = process.env) {
-  const dataMode = environment.DATA_MODE === 'live' ? 'live' : 'fixture';
-
   return {
     projectRoot,
     publicDirectory: resolve(projectRoot, 'public'),
-    fixtureDirectory: resolve(projectRoot, 'fixtures'),
     port: positiveInteger(environment.PORT, 3000),
-    dataMode,
     geogouvCompletionEndpoint:
       environment.GEOGOUV_COMPLETION_ENDPOINT ??
       'https://data.geopf.fr/geocodage/completion/',

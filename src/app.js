@@ -13,7 +13,7 @@ export function createApp(config, dependencies = {}) {
 
   app.disable('x-powered-by');
   app.use(express.json({ limit: '20kb' }));
-  app.use('/api', createApiRouter({ config, geocodingService, searchService }));
+  app.use('/api', createApiRouter({ geocodingService, searchService }));
   app.use(
     '/vendor/leaflet',
     express.static(resolve(config.projectRoot, 'node_modules/leaflet/dist')),

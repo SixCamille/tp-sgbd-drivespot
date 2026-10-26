@@ -302,22 +302,5 @@ elements.form.addEventListener('submit', async (event) => {
   }
 });
 
-async function initialize() {
-  try {
-    const response = await fetch('/api/config');
-    const config = await response.json();
-    elements.address.value = 'Place Bellecour, 69002 Lyon, France';
-    if (config.dataMode === 'fixture') {
-      selectedAddress = {
-        label: elements.address.value,
-        latitude: config.defaultCenter.latitude,
-        longitude: config.defaultCenter.longitude,
-      };
-    }
-  } catch {
-    elements.address.value = '';
-  }
-}
-
-initialize();
+elements.address.value = 'Place Bellecour, 69002 Lyon, France';
 

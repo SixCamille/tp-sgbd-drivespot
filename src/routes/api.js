@@ -21,16 +21,8 @@ function parseCoordinates(value) {
   return isValidCoordinate(latitude, longitude) ? { latitude, longitude } : null;
 }
 
-export function createApiRouter({ config, geocodingService, searchService }) {
+export function createApiRouter({ geocodingService, searchService }) {
   const router = Router();
-
-  router.get('/config', (_request, response) => {
-    response.json({
-      dataMode: config.dataMode,
-      defaultCenter: { latitude: 45.7578, longitude: 4.832 },
-      clusterThreshold: 5,
-    });
-  });
 
   router.get('/suggestions', async (request, response) => {
     try {

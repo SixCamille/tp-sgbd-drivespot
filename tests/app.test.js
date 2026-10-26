@@ -3,10 +3,38 @@ import test from 'node:test';
 import { createApp } from '../src/app.js';
 import { loadConfig } from '../src/config.js';
 
+const overpassElements = [
+  { junction: 'roundabout' },
+  { highway: 'mini_roundabout' },
+  { highway: 'traffic_signals' },
+  { highway: 'stop' },
+  { highway: 'give_way' },
+  { highway: 'crossing' },
+  { traffic_calming: 'bump' },
+  { traffic_calming: 'table' },
+  { railway: 'level_crossing' },
+  { highway: 'crossing', bicycle: 'yes' },
+  { highway: 'stop' },
+  { highway: 'traffic_signals' },
+  { highway: 'crossing' },
+  { traffic_calming: 'hump' },
+  { junction: 'roundabout' },
+].map((tags, index) => ({
+  type: 'node',
+  id: index + 1,
+  lat: 45.7578 + (index < 6 ? index * 0.00001 : (index - 5) * 0.0015),
+  lon: 4.832 + (index < 6 ? index * 0.00001 : (index - 5) * 0.0015),
+  tags,
+}));
+
 async function withServer(action) {
-  const config = loadConfig({ DATA_MODE: 'fixture' });
+  const config = loadConfig({});
   const fetchImpl = async (url) => {
-    const query = new URL(url).searchParams.get('text');
+    const requestedUrl = new URL(url);
+    if (requestedUrl.hostname === 'overpass-api.de') {
+      return { ok: true, json: async () => ({ elements: overpassElements }) };
+    }
+    const query = requestedUrl.searchParams.get('text');
     const isPartDieu = query.toLocaleLowerCase('fr').includes('part-dieu');
     return {
       ok: true,
@@ -38,7 +66,7 @@ async function withServer(action) {
   }
 }
 
-test('le parcours fixture expose suggestions, dix catégories et un cluster', async () => {
+test('le parcours API expose suggestions, dix catégories et un cluster', async () => {
   await withServer(async (baseUrl) => {
     const suggestionsResponse = await fetch(`${baseUrl}/api/suggestions?q=Bellecour`);
     assert.equal(suggestionsResponse.status, 200);
@@ -64,7 +92,7 @@ test('le parcours fixture expose suggestions, dix catégories et un cluster', as
   });
 });
 
-test('une recherche fixture accepte une adresse sans suggestion sélectionnée', async () => {
+test('une recherche accepte une adresse sans suggestion sélectionnée', async () => {
   await withServer(async (baseUrl) => {
     const response = await fetch(`${baseUrl}/api/search`, {
       method: 'POST',

@@ -6,9 +6,9 @@ Cette version est volontairement **100 % sans base de données**. Elle constitue
 
 ## Fonctionnalités
 
-- suggestions d'adresse avec le service d'autocomplétion GeoGouv, quel que soit le mode de données cartographiques ;
+- suggestions d'adresse avec le service d'autocomplétion GeoGouv ;
 - saisie d'adresse utilisable sans sélectionner une suggestion, avec coordonnées en repli ;
-- récupération des données OSM via Overpass, ou fixtures locales hors ligne ;
+- récupération des données OSM via Overpass ;
 - carré de 5 km de côté, soit environ 2,5 km dans chaque direction ;
 - normalisation des nodes et ways OSM en un POI représentatif ;
 - dix catégories d'aménagements ;
@@ -25,13 +25,13 @@ Node.js 22 LTS ou une version supérieure, puis :
     npm install
     npm run dev
 
-Ouvrir http://localhost:3000. Le mode par défaut utilise des données routières locales et reproduit les dix catégories autour de l'adresse choisie sans appeler Overpass. L’autocomplétion reste fournie par GeoGouv ; l’adresse préremplie et la saisie de coordonnées permettent de vérifier le parcours sans réseau. Leaflet est servi localement ; seules les tuiles de fond restent externes et leur absence n'empêche pas le rendu des POI et clusters. Pour lancer sans surveillance :
+Ouvrir http://localhost:3000. L'application interroge GeoGouv pour les adresses et Overpass pour les aménagements routiers. Leaflet est servi localement ; les tuiles de fond sont également externes, mais leur absence n'empêche pas le rendu des POI et clusters. Pour lancer sans surveillance :
 
     npm start
 
-Pour utiliser les services publics réels, copier .env.example vers .env, définir DATA_MODE=live, renseigner un PUBLIC_USER_AGENT qui identifie le projet, puis relancer npm start. Node charge automatiquement ce fichier lorsqu'il existe.
+Pour personnaliser la configuration, copier .env.example vers .env, renseigner un PUBLIC_USER_AGENT qui identifie le projet, puis relancer npm start. Node charge automatiquement ce fichier lorsqu'il existe.
 
-Le fichier .env est ignoré par Git. Aucune clé n'est nécessaire pour GeoGouv, Overpass ou les données routières locales.
+Le fichier .env est ignoré par Git. Aucune clé n'est nécessaire pour GeoGouv ou Overpass.
 
 ## Tests
 
@@ -41,14 +41,14 @@ Les tests couvrent la bounding box, les nodes et ways, le sommet fermé répét�
 
 ## Parcours de vérification manuelle
 
-1. Lancer en mode fixture.
+1. Lancer l'application et vérifier que GeoGouv et Overpass sont accessibles.
 2. Choisir « Place Bellecour » et cliquer sur **Analyser la zone**.
-3. Vérifier le carré bleu de 5 km, les 15 POI et la case orange de 6 POI.
+3. Vérifier le carré bleu de 5 km et les POI renvoyés par Overpass.
 4. Ouvrir le cluster et sélectionner un POI de sa liste.
-5. Vérifier que les dix catégories apparaissent dans la synthèse.
+5. Vérifier que les catégories présentes apparaissent dans la synthèse.
 6. Relancer la recherche et comparer le temps total affiché.
 7. Saisir « Gare Part-Dieu Lyon » sans cliquer une suggestion : la recherche doit fonctionner.
-8. En mode réel, tester une adresse lyonnaise puis repasser en fixture si le service public est indisponible.
+8. Tester une autre adresse lyonnaise et vérifier le déplacement de la zone analysée.
 
 Le chronomètre démarre au clic et s'arrête après le retour API, la mise à jour des marqueurs, clusters et listes, puis deux passages de rendu navigateur. Il n'attend pas les tuiles cartographiques.
 
@@ -60,7 +60,6 @@ Le chronomètre démarre au clic et s'arrête après le retour API, la mise à j
       routes/api.js
       providers/
         index.js
-        fixtureProvider.js
         osmProvider.js
       services/
         bounds.js
@@ -73,9 +72,6 @@ Le chronomètre démarre au clic et s'arrête après le retour API, la mise à j
       index.html
       app.js
       styles.css
-    fixtures/
-      addresses.json
-      overpass.json
     tests/
 
 Le fournisseur de POI expose fetchPois({ center, bounds, signal }). La suite SQL pourra le remplacer sans changer la route HTTP, le format de réponse ni le chronomètre frontend. Voir POINTS_EXTENSION_SQL.md.
@@ -110,7 +106,7 @@ La traversée cyclable est testée avant le passage piéton afin qu'un objet por
 - aucune intersection n'est inventée ;
 - la conversion kilomètres/degrés est une approximation locale.
 
-Les requêtes publiques ont un timeout, un espacement minimal côté Overpass et un user-agent configurable. Les tests n'appellent jamais ces services. Le mode fixture est un jeu statique, pas un cache de recherches.
+Les requêtes publiques ont un timeout, un espacement minimal côté Overpass et un user-agent configurable. Les tests n'appellent jamais ces services : ils remplacent les réponses HTTP par des doubles contrôlés.
 
 Références de tagging vérifiées : documentation officielle [Overpass QL](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL), [highway=crossing](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dcrossing), [cycleway=crossing](https://wiki.openstreetmap.org/wiki/Tag:cycleway%3Dcrossing) et [traffic_calming](https://wiki.openstreetmap.org/wiki/Key:traffic_calming). Les deux modificateurs Overpass `geom` et `center` sont demandés : la géométrie complète est prioritaire et le centre de bounding box ne sert que de repli.
 
