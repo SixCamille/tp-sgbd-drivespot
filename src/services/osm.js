@@ -15,13 +15,23 @@ const SELECTORS = [
   ['cycleway', 'crossing'],
 ];
 
+const WAY_SELECTORS = new Set([
+  'junction=roundabout',
+  'traffic_calming=bump',
+  'traffic_calming=hump',
+  'traffic_calming=table',
+]);
+
 export function buildOverpassQuery(bounds) {
   const bbox = `${bounds.south},${bounds.west},${bounds.north},${bounds.east}`;
-  const statements = SELECTORS.flatMap(([key, value]) => [
-    `node["${key}"="${value}"](${bbox});`,
-    `way["${key}"="${value}"](${bbox});`,
-  ]).join('\n  ');
-  return `[out:json][timeout:25];\n(\n  ${statements}\n);\nout body center geom;`;
+  const statements = SELECTORS.flatMap(([key, value]) => {
+    const selectors = [`node["${key}"="${value}"](${bbox});`];
+    if (WAY_SELECTORS.has(`${key}=${value}`)) {
+      selectors.push(`way["${key}"="${value}"](${bbox});`);
+    }
+    return selectors;
+  }).join('\n  ');
+  return `[out:json][timeout:25];\n(\n  ${statements}\n);\nout body center;`;
 }
 
 export function createOverpassClient(config, { fetchImpl = globalThis.fetch } = {}) {
