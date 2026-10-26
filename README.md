@@ -1,6 +1,6 @@
 # DriveSpots — cartographie des parcours de conduite
 
-DriveSpots aide les responsables d’agence et les moniteurs d’auto-école à préparer leurs parcours. À partir d’une adresse, l’application visualise les aménagements routiers utiles aux leçons de conduite dans un carré de **5 km × 5 km** centré sur ce point de départ.
+DriveSpots aide les responsables d’agence et les moniteurs d’auto-école à préparer leurs parcours. À partir d’une adresse, l’application visualise les aménagements routiers utiles aux leçons de conduite dans un carré de **3 km × 3 km** centré sur ce point de départ.
 
 Cette version est volontairement **100 % sans base de données**. Elle constitue une référence fonctionnelle avant l’ajout éventuel d’une couche de persistance et la comparaison de plusieurs SGBD.
 
@@ -9,7 +9,7 @@ Cette version est volontairement **100 % sans base de données**. Elle constitue
 - suggestions d'adresse avec le service d'autocomplétion GeoGouv ;
 - saisie d'adresse utilisable sans sélectionner une suggestion, avec coordonnées en repli ;
 - récupération des données OSM via Overpass ;
-- carré de 5 km de côté, soit environ 2,5 km dans chaque direction ;
+- carré de 3 km de côté, soit environ 1,5 km dans chaque direction ;
 - normalisation des nodes et ways OSM en un POI représentatif ;
 - dix catégories d'aménagements ;
 - clusters métier en JavaScript par arrondi à 3 décimales, à partir de 5 POI ;
@@ -43,7 +43,7 @@ Les tests couvrent la bounding box, les nodes et ways, le sommet fermé répét�
 
 1. Lancer l'application et vérifier que GeoGouv et Overpass sont accessibles.
 2. Choisir « Place Bellecour » et cliquer sur **Analyser la zone**.
-3. Vérifier le carré bleu de 5 km et les POI renvoyés par Overpass.
+3. Vérifier le carré bleu de 3 km et les POI renvoyés par Overpass.
 4. Ouvrir le cluster et sélectionner un POI de sa liste.
 5. Vérifier que les catégories présentes apparaissent dans la synthèse.
 6. Relancer la recherche et comparer le temps total affiché.

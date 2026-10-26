@@ -22,8 +22,8 @@ const overpassElements = [
 ].map((tags, index) => ({
   type: 'node',
   id: index + 1,
-  lat: 45.7578 + (index < 6 ? index * 0.00001 : (index - 5) * 0.0015),
-  lon: 4.832 + (index < 6 ? index * 0.00001 : (index - 5) * 0.0015),
+  lat: 45.7578 + (index < 6 ? index * 0.00001 : (index - 5) * 0.0014),
+  lon: 4.832 + (index < 6 ? index * 0.00001 : (index - 5) * 0.0014),
   tags,
 }));
 
