@@ -316,6 +316,7 @@ button:focus-visible {
   height: 0.75rem;
   flex: 0 0 auto;
   border: 1px solid rgb(11 29 45 / 15%);
+  border-radius: 50%;
 }
 
 .poi-list {
