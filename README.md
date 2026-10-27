@@ -29,7 +29,7 @@ Ouvrir http://localhost:3000. L'application interroge GeoGouv pour les adresses 
 
     npm start
 
-Pour personnaliser la configuration, copier .env.example vers .env, renseigner un PUBLIC_USER_AGENT qui identifie le projet, puis relancer npm start. Node charge automatiquement ce fichier lorsqu'il existe. `OVERPASS_ENDPOINTS` accepte une liste d'instances séparées par des virgules ; elles sont essayées dans l'ordre lorsqu'une instance expire, est indisponible ou renvoie une erreur HTTP.
+Pour personnaliser la configuration, copier .env.example vers .env, renseigner un PUBLIC_USER_AGENT qui identifie le projet, puis relancer npm start. Node charge automatiquement ce fichier lorsqu'il existe. Si `NEXTGIS_OVERPASS_API_KEY` est renseignée, l'application construit l'endpoint à partir de `NEXTGIS_OVERPASS_URL` et l'essaie en premier. La clé doit rester uniquement dans `.env`. `OVERPASS_ENDPOINTS` contient les instances de repli séparées par des virgules ; elles sont essayées dans l'ordre lorsqu'une instance expire, est indisponible ou renvoie une erreur HTTP.
 
 Le fichier .env est ignoré par Git. Aucune clé n'est nécessaire pour GeoGouv ou Overpass.
 

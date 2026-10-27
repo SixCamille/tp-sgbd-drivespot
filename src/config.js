@@ -16,6 +16,23 @@ function commaSeparatedUrls(value, fallback) {
   return urls.length > 0 ? urls : fallback;
 }
 
+function overpassEndpoints(environment) {
+  const fallbacks = commaSeparatedUrls(environment.OVERPASS_ENDPOINTS, [
+    'https://overpass-api.de/api/interpreter',
+    'https://overpass.private.coffee/api/interpreter',
+  ]);
+  const apiKey = String(environment.NEXTGIS_OVERPASS_API_KEY ?? '').trim();
+  if (!apiKey) return fallbacks;
+
+  const baseUrl = String(
+    environment.NEXTGIS_OVERPASS_URL ?? 'https://overpass.nextgis.com',
+  )
+    .trim()
+    .replace(/\/+$/, '');
+  const nextgisEndpoint = `${baseUrl}/${encodeURIComponent(apiKey)}/api/interpreter`;
+  return [nextgisEndpoint, ...fallbacks.filter((url) => url !== nextgisEndpoint)];
+}
+
 export function loadConfig(environment = process.env) {
   return {
     projectRoot,
@@ -24,10 +41,7 @@ export function loadConfig(environment = process.env) {
     geogouvCompletionEndpoint:
       environment.GEOGOUV_COMPLETION_ENDPOINT ??
       'https://data.geopf.fr/geocodage/completion/',
-    overpassEndpoints: commaSeparatedUrls(environment.OVERPASS_ENDPOINTS, [
-      'https://overpass-api.de/api/interpreter',
-      'https://overpass.private.coffee/api/interpreter',
-    ]),
+    overpassEndpoints: overpassEndpoints(environment),
     geocodingTimeoutMs: positiveInteger(environment.GEOCODING_TIMEOUT_MS, 8_000),
     overpassTimeoutMs: positiveInteger(environment.OVERPASS_TIMEOUT_MS, 30_000),
     userAgent:
