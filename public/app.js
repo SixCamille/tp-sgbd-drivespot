@@ -171,7 +171,8 @@ function renderClusters(clusters) {
       fillOpacity: 0.24,
     })
       .bindPopup(
-        `<div class="cluster-popup"><strong>${cluster.count} aménagements dans cette zone</strong>` +
+        `<div class="cluster-popup"><strong>${cluster.count} aménagements · ` +
+          `${cluster.categoryCount} types dans cette zone</strong>` +
           `<ul>${list}</ul></div>`,
       )
       .addTo(clusterLayer);
@@ -232,7 +233,7 @@ function renderSummary(pois, clusters) {
 
   elements.clusterCount.textContent =
     `${clusters.length} zone${clusters.length > 1 ? 's' : ''} ` +
-    `dense${clusters.length > 1 ? 's' : ''}`;
+    `variée${clusters.length > 1 ? 's' : ''}`;
   elements.count.textContent = `${pois.length} aménagement${pois.length > 1 ? 's' : ''}`;
 }
 

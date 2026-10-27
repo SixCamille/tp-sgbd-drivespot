@@ -25,7 +25,7 @@ Les signatures exactes restent à concevoir selon le SGBD retenu. Le socle ne fo
 
 La référence JavaScript est src/services/clusters.js. Son appel dans src/services/search.js contient un point d’extension explicite.
 
-Ce comportement devra être reproduit avec ROUND, GROUP BY, COUNT et AVG. Le seuil reste cinq POI. Conserver la version JavaScript au début permet de vérifier la parité de la version SQL.
+Ce comportement devra être reproduit avec ROUND, GROUP BY, COUNT(DISTINCT category), COUNT et AVG. Une cellule devient un cluster à partir de trois catégories de POI distinctes. Conserver la version JavaScript au début permet de vérifier la parité de la version SQL.
 
 ## 4. Vues, table de clusters et triggers
 

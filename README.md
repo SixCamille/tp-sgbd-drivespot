@@ -12,7 +12,7 @@ Cette version est volontairement **100 % sans base de données**. Elle constitue
 - carré de 3 km de côté, soit environ 1,5 km dans chaque direction ;
 - normalisation des nodes et ways OSM en un POI représentatif ;
 - dix catégories d'aménagements ;
-- clusters métier en JavaScript par arrondi à 3 décimales, à partir de 5 POI ;
+- clusters métier en JavaScript par arrondi à 3 décimales, à partir de 3 catégories de POI distinctes ;
 - carte Leaflet avec POI individuels, cases de clusters et liste navigable ;
 - mesure unique du clic jusqu'au rendu des couches et listes ;
 - annulation logique des recherches concurrentes ;
@@ -37,7 +37,7 @@ Le fichier .env est ignoré par Git. Aucune clé n'est nécessaire pour GeoGouv 
 
     npm test
 
-Les tests couvrent la bounding box, les nodes et ways, le sommet fermé répété, les coordonnées négatives, les seuils 4/5/6, la déduplication, les tags superposés, les réponses anormales, les timeouts et un parcours API complet sans réseau externe.
+Les tests couvrent la bounding box, les nodes et ways, le sommet fermé répété, les coordonnées négatives, le seuil de trois catégories distinctes, la déduplication, les tags superposés, les réponses anormales, les timeouts et un parcours API complet sans réseau externe.
 
 ## Parcours de vérification manuelle
 

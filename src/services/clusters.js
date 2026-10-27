@@ -1,4 +1,4 @@
-export const CLUSTER_THRESHOLD = 5;
+export const CLUSTER_CATEGORY_THRESHOLD = 3;
 
 export function roundCoordinate(value, decimals = 3) {
   if (!Number.isFinite(value)) throw new TypeError('Coordonnée non numérique.');
@@ -8,7 +8,7 @@ export function roundCoordinate(value, decimals = 3) {
   return Object.is(result, -0) ? 0 : result;
 }
 
-export function groupPois(pois, threshold = CLUSTER_THRESHOLD) {
+export function groupPois(pois, categoryThreshold = CLUSTER_CATEGORY_THRESHOLD) {
   const groups = new Map();
 
   for (const poi of pois) {
@@ -26,7 +26,11 @@ export function groupPois(pois, threshold = CLUSTER_THRESHOLD) {
   }
 
   return [...groups.values()]
-    .filter((group) => group.pois.length >= threshold)
+    .map((group) => ({
+      ...group,
+      categoryCount: new Set(group.pois.map((poi) => poi.category).filter(Boolean)).size,
+    }))
+    .filter((group) => group.categoryCount >= categoryThreshold)
     .map((group) => ({
       ...group,
       count: group.pois.length,

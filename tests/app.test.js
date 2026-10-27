@@ -89,6 +89,7 @@ test('le parcours API expose suggestions, dix catégories et un cluster', async 
     assert.equal(new Set(result.pois.map((poi) => poi.category)).size, 10);
     assert.equal(result.clusters.length, 1);
     assert.equal(result.clusters[0].count, 6);
+    assert.equal(result.clusters[0].categoryCount, 6);
   });
 });
 
