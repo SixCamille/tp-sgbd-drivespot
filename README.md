@@ -1,6 +1,6 @@
 # DriveSpots — cartographie des parcours de conduite
 
-DriveSpots aide les responsables d’agence et les moniteurs d’auto-école à préparer leurs parcours. À partir d’une adresse, l’application visualise les aménagements routiers utiles aux leçons de conduite dans un carré de **3 km × 3 km** centré sur ce point de départ.
+DriveSpots aide les responsables d’agence et les moniteurs d’auto-école à préparer leurs parcours. À partir d’une adresse, l’application visualise les aménagements routiers utiles aux leçons de conduite dans un carré de **5 km × 5 km** centré sur ce point de départ.
 
 Cette version est volontairement **100 % sans base de données**. Elle constitue une référence fonctionnelle avant l’ajout éventuel d’une couche de persistance et la comparaison de plusieurs SGBD.
 
@@ -9,7 +9,7 @@ Cette version est volontairement **100 % sans base de données**. Elle constitue
 - suggestions d'adresse avec le service d'autocomplétion GeoGouv ;
 - saisie d'adresse utilisable sans sélectionner une suggestion, avec coordonnées en repli ;
 - récupération des données OSM via Overpass ;
-- carré de 3 km de côté, soit environ 1,5 km dans chaque direction ;
+- carré de 5 km de côté, soit environ 2,5 km dans chaque direction ;
 - normalisation des nodes et ways OSM en un POI représentatif ;
 - dix catégories d'aménagements ;
 - clusters métier en JavaScript par arrondi à 3 décimales, à partir de 3 catégories de POI distinctes ;
@@ -43,7 +43,7 @@ Les tests couvrent la bounding box, les nodes et ways, le sommet fermé répét�
 
 1. Lancer l'application et vérifier que GeoGouv et Overpass sont accessibles.
 2. Choisir « Place Bellecour » et cliquer sur **Analyser la zone**.
-3. Vérifier le carré bleu de 3 km et les POI renvoyés par Overpass.
+3. Vérifier le carré bleu de 5 km et les POI renvoyés par Overpass.
 4. Ouvrir le cluster et sélectionner un POI de sa liste.
 5. Vérifier que les catégories présentes apparaissent dans la synthèse.
 6. Relancer la recherche et comparer le temps total affiché.
@@ -74,7 +74,7 @@ Le chronomètre démarre au clic et s'arrête après le retour API, la mise à j
       styles.css
     tests/
 
-Le fournisseur de POI expose fetchPois({ center, bounds, signal }). La suite SQL pourra le remplacer sans changer la route HTTP, le format de réponse ni le chronomètre frontend. Voir POINTS_EXTENSION_SQL.md.
+Le fournisseur de POI expose une propriété `source` et la méthode `fetchPois({ center, bounds, signal })`, qui renvoie des POI déjà normalisés. La suite SQL pourra le remplacer sans connaître le format Overpass et sans changer la route HTTP, le format de réponse ni le chronomètre frontend. Voir POINTS_EXTENSION_SQL.md.
 
 ## Catégories et tags OSM
 
@@ -108,7 +108,7 @@ La traversée cyclable est testée avant le passage piéton afin qu'un objet por
 
 Les requêtes ont un timeout, un espacement minimal côté Overpass et un user-agent configurable. Aucun endpoint de repli n'est appelé en cas d'échec. Les tests n'appellent jamais ces services : ils remplacent les réponses HTTP par des doubles contrôlés.
 
-Références de tagging vérifiées : documentation officielle [Overpass QL](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL), [highway=crossing](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dcrossing), [cycleway=crossing](https://wiki.openstreetmap.org/wiki/Tag:cycleway%3Dcrossing) et [traffic_calming](https://wiki.openstreetmap.org/wiki/Key:traffic_calming). Les deux modificateurs Overpass `geom` et `center` sont demandés : la géométrie complète est prioritaire et le centre de bounding box ne sert que de repli.
+Références de tagging vérifiées : documentation officielle [Overpass QL](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL), [highway=crossing](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dcrossing), [cycleway=crossing](https://wiki.openstreetmap.org/wiki/Tag:cycleway%3Dcrossing) et [traffic_calming](https://wiki.openstreetmap.org/wiki/Key:traffic_calming). La requête courante demande le modificateur Overpass `center` pour limiter le volume transféré. Le normaliseur accepte aussi une géométrie complète lorsqu’un autre fournisseur en transmet une.
 
 ## Feuille de route pour la persistance
 

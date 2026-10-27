@@ -20,7 +20,7 @@
     npm test
     npm start
 
-Résultat du 27 octobre 2026 : 26 tests sur 26 réussis. Le parcours HTTP est couvert sans réseau par des doubles de GeoGouv et Overpass. Il vérifie 15 POI, les 10 catégories et un cluster réunissant 6 POI de 6 catégories. Les contrats des services externes restent couverts par des tests unitaires sans appel réseau, notamment la configuration NextGIS, la propagation de son indisponibilité et l'annulation d'une requête.
+Résultat du 27 octobre 2026 : 27 tests sur 27 réussis. Le parcours HTTP est couvert sans réseau par des doubles de GeoGouv et Overpass. Il vérifie 15 POI, les 10 catégories et un cluster réunissant 6 POI de 6 catégories. Les contrats des services externes restent couverts par des tests unitaires sans appel réseau, notamment la configuration NextGIS, la propagation de son indisponibilité et l'annulation d'une requête. Le contrat du fournisseur est également vérifié avec des POI déjà normalisés afin de préserver son remplacement futur.
 
 La capture visuelle automatisée n'a pas été menée à son terme : l'outil de contrôle de Chrome n'a pas pu déterminer l'URL active avec assez de certitude et s'est arrêté par sécurité. Le parcours visuel manuel reste documenté dans le README.
 

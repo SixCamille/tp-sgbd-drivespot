@@ -4,15 +4,15 @@ Le socle ne contient volontairement aucune base de données.
 
 ## 1. Fournisseur de POI
 
-Le fichier src/providers/index.js sélectionne un fournisseur qui expose :
+Le fichier src/providers/index.js sélectionne un fournisseur qui expose une propriété `source` et une méthode :
 
     provider.fetchPois({ center, bounds, signal })
 
-Dans une future version, un fournisseur composite pourra vérifier si la zone est couverte, lire la base si elle l'est, ou appeler Overpass puis persister le résultat. Un commentaire dédié marque ce point d’extension dans le code.
+Cette méthode renvoie directement une liste de POI normalisés. Le format brut d’Overpass reste donc cantonné à `osmProvider.js` et aux services OSM. Dans une future version, un fournisseur composite pourra vérifier si la zone est couverte, lire la base si elle l'est, ou appeler Overpass puis persister le résultat. L’orchestrateur de recherche restera ainsi indépendant du stockage. Un commentaire dédié marque ce point d’extension dans le code.
 
 ## 2. Repository et stockage
 
-Le point d'orchestration est src/services/search.js, après la normalisation. Un futur repository pourra proposer :
+Un futur repository, utilisé par le nouveau fournisseur, pourra proposer :
 
     repository.findCoveredArea(bounds)
     repository.saveSearch({ center, bounds, pois })
@@ -42,8 +42,8 @@ La réponse de POST /api/search doit continuer à fournir center, bounds, pois, 
 ## 6. Fichiers concernés par une future couche de persistance
 
 - src/providers/index.js : sélectionner le nouveau fournisseur ;
+- nouveau fournisseur : orchestrer couverture, import et lecture ;
 - nouveau dossier src/repositories/ : accès au SGBD ;
-- src/services/search.js : couverture, import et lecture ;
 - src/services/clusters.js : référence à comparer au calcul SQL ;
 - configuration et .env.example : connexion sans secret ;
 - tests : parité fonctionnelle et erreurs ;

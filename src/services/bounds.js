@@ -1,5 +1,5 @@
 const EARTH_KM_PER_LATITUDE_DEGREE = 111.32;
-const HALF_SIDE_KM = 1.5;
+const HALF_SIDE_KM = 2.5;
 
 export function isValidCoordinate(latitude, longitude) {
   return (
