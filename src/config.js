@@ -8,6 +8,14 @@ function positiveInteger(value, fallback) {
   return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
 }
 
+function commaSeparatedUrls(value, fallback) {
+  const urls = String(value ?? '')
+    .split(',')
+    .map((url) => url.trim())
+    .filter(Boolean);
+  return urls.length > 0 ? urls : fallback;
+}
+
 export function loadConfig(environment = process.env) {
   return {
     projectRoot,
@@ -16,13 +24,15 @@ export function loadConfig(environment = process.env) {
     geogouvCompletionEndpoint:
       environment.GEOGOUV_COMPLETION_ENDPOINT ??
       'https://data.geopf.fr/geocodage/completion/',
-    overpassEndpoint:
-      environment.OVERPASS_ENDPOINT ?? 'https://overpass-api.de/api/interpreter',
+    overpassEndpoints: commaSeparatedUrls(environment.OVERPASS_ENDPOINTS, [
+      'https://overpass-api.de/api/interpreter',
+      'https://overpass.private.coffee/api/interpreter',
+    ]),
     geocodingTimeoutMs: positiveInteger(environment.GEOCODING_TIMEOUT_MS, 8_000),
     overpassTimeoutMs: positiveInteger(environment.OVERPASS_TIMEOUT_MS, 30_000),
     userAgent:
       environment.PUBLIC_USER_AGENT ??
-      'DriveSpots/1.0 (configure PUBLIC_USER_AGENT with a contact address)',
+      'DriveSpots/1.0 (+https://github.com/sixcamille/tp-sgbd)',
   };
 }
 

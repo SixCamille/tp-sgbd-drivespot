@@ -44,6 +44,7 @@ export async function requestJson(
   } catch (error) {
     if (error instanceof AppError) throw error;
     if (error?.name === 'AbortError') {
+      if (signal?.aborted && !timeoutController.signal.aborted) throw error;
       throw new AppError('Le service distant a mis trop de temps à répondre.', {
         status: 504,
         code: 'UPSTREAM_TIMEOUT',
