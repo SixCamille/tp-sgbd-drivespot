@@ -9,7 +9,7 @@ const elements = {
   count: document.querySelector('#result-count'),
   clusterCount: document.querySelector('#cluster-count'),
   categorySummary: document.querySelector('#category-summary'),
-  poiList: document.querySelector('#poi-list'),
+  clusterList: document.querySelector('#cluster-list'),
 };
 
 const map = L.map('map', { preferCanvas: true }).setView([45.7578, 4.832], 14);
@@ -27,6 +27,7 @@ let searchController;
 let suggestionTimer;
 let requestSequence = 0;
 const markersById = new Map();
+const clustersById = new Map();
 
 function escapeHtml(value) {
   return String(value)
@@ -130,6 +131,28 @@ function focusPoi(id) {
   marker.openPopup();
 }
 
+function focusCluster(id) {
+  const cluster = clustersById.get(id);
+  if (!cluster) return;
+  map.setView(cluster.center, 18);
+  cluster.layer.openPopup();
+}
+
+function summarizeClusterCategories(cluster) {
+  const categories = new Map();
+  for (const poi of cluster.pois) {
+    const current = categories.get(poi.category) ?? {
+      label: poi.categoryLabel,
+      count: 0,
+    };
+    current.count += 1;
+    categories.set(poi.category, current);
+  }
+  return [...categories.values()].sort(
+    (left, right) => right.count - left.count || left.label.localeCompare(right.label, 'fr'),
+  );
+}
+
 function renderPois(pois) {
   poiLayer.clearLayers();
   markersById.clear();
@@ -152,6 +175,7 @@ function renderPois(pois) {
 
 function renderClusters(clusters) {
   clusterLayer.clearLayers();
+  clustersById.clear();
   for (const cluster of clusters) {
     const cellBounds = [
       [cluster.gridLatitude - 0.0005, cluster.gridLongitude - 0.0005],
@@ -164,7 +188,7 @@ function renderClusters(clusters) {
           `${escapeHtml(poi.categoryLabel)} · ${escapeHtml(poi.name)}</button></li>`,
       )
       .join('');
-    L.rectangle(cellBounds, {
+    const layer = L.rectangle(cellBounds, {
       color: '#e59b00',
       weight: 3,
       fillColor: '#ffc43d',
@@ -176,6 +200,10 @@ function renderClusters(clusters) {
           `<ul>${list}</ul></div>`,
       )
       .addTo(clusterLayer);
+    clustersById.set(cluster.id, {
+      center: [cluster.latitude, cluster.longitude],
+      layer,
+    });
   }
 }
 
@@ -217,18 +245,28 @@ function renderSummary(pois, clusters) {
     }
   }
 
-  elements.poiList.replaceChildren();
+  elements.clusterList.replaceChildren();
   const title = document.createElement('h3');
-  title.textContent = 'Tous les aménagements';
-  elements.poiList.append(title);
-  for (const poi of pois) {
+  title.textContent = 'Zones variées';
+  elements.clusterList.append(title);
+  if (clusters.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'empty-state';
+    empty.textContent = 'Aucun cluster ne réunit trois types de POI dans cette zone.';
+    elements.clusterList.append(empty);
+  }
+  for (const [index, cluster] of clusters.entries()) {
+    const details = summarizeClusterCategories(cluster)
+      .map((category) => `${category.label} × ${category.count}`)
+      .join(' · ');
     const button = document.createElement('button');
     button.type = 'button';
     button.innerHTML =
-      `<span>${escapeHtml(poi.name)}</span>` +
-      `<small>${escapeHtml(poi.categoryLabel)} · ${escapeHtml(poi.id)}</small>`;
-    button.addEventListener('click', () => focusPoi(poi.id));
-    elements.poiList.append(button);
+      `<span>Zone ${index + 1} · ${cluster.categoryCount} types · ` +
+      `${cluster.count} aménagements</span>` +
+      `<small>${escapeHtml(details)}</small>`;
+    button.addEventListener('click', () => focusCluster(cluster.id));
+    elements.clusterList.append(button);
   }
 
   elements.clusterCount.textContent =

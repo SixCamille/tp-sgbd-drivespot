@@ -13,7 +13,7 @@ Cette version est volontairement **100 % sans base de données**. Elle constitue
 - normalisation des nodes et ways OSM en un POI représentatif ;
 - dix catégories d'aménagements ;
 - clusters métier en JavaScript par arrondi à 3 décimales, à partir de 3 catégories de POI distinctes ;
-- carte Leaflet avec POI individuels, cases de clusters et liste navigable ;
+- carte Leaflet avec POI individuels, cases de clusters et liste navigable des clusters avec le détail rapide de leurs catégories ;
 - mesure unique du clic jusqu'au rendu des couches et listes ;
 - annulation logique des recherches concurrentes ;
 - tests automatisés sans appels réseau externes.

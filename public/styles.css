@@ -319,15 +319,15 @@ button:focus-visible {
   border-radius: 50%;
 }
 
-.poi-list {
+.cluster-list {
   margin-top: 1rem;
 }
 
-.poi-list h3 {
+.cluster-list h3 {
   font-size: 0.95rem;
 }
 
-.poi-list button {
+.cluster-list button {
   display: grid;
   width: 100%;
   gap: 0.15rem;
@@ -339,11 +339,11 @@ button:focus-visible {
   background: transparent;
 }
 
-.poi-list button:hover {
+.cluster-list button:hover {
   color: var(--red);
 }
 
-.poi-list small,
+.cluster-list small,
 .empty-state {
   color: var(--muted);
 }
