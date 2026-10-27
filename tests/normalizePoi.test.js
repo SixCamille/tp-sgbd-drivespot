@@ -1,3 +1,4 @@
+// Cas de référence pour convertir les formes OSM en POI métier dédupliqués.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {

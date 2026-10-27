@@ -1,3 +1,4 @@
+// Construit la requête Overpass et protège son exécution (cadence, timeout, annulation).
 import { AppError } from '../errors.js';
 import { requestJson } from '../utils/requestJson.js';
 
@@ -26,6 +27,7 @@ export function buildOverpassQuery(bounds) {
   const bbox = `${bounds.south},${bounds.west},${bounds.north},${bounds.east}`;
   const statements = SELECTORS.flatMap(([key, value]) => {
     const selectors = [`node["${key}"="${value}"](${bbox});`];
+    // Seuls les aménagements pouvant être modélisés comme une ligne ou une surface demandent les ways.
     if (WAY_SELECTORS.has(`${key}=${value}`)) {
       selectors.push(`way["${key}"="${value}"](${bbox});`);
     }
@@ -38,6 +40,7 @@ export function createOverpassClient(config, { fetchImpl = globalThis.fetch } = 
   let previousRequestAt = 0;
 
   return async function fetchElements(bounds, { signal } = {}) {
+    // Espace les requêtes d'une même instance pour ménager le service Overpass.
     const waitMs = Math.max(0, 1_200 - (Date.now() - previousRequestAt));
     if (waitMs > 0) {
       await new Promise((resolve, reject) => {

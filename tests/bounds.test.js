@@ -1,3 +1,4 @@
+// Contrat géographique du carré de recherche et validation de ses coordonnées.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { calculateBoundingBox, isInsideBounds } from '../src/services/bounds.js';

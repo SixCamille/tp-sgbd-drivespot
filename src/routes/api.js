@@ -1,8 +1,10 @@
+// Couche HTTP : valide les entrées, résout le centre et délègue aux services.
 import { Router } from 'express';
 import { AppError, publicError } from '../errors.js';
 import { isValidCoordinate } from '../services/bounds.js';
 
 function requestAbortSignal(request, response) {
+  // Interrompt aussi les appels externes si le client ferme la connexion HTTP.
   const controller = new AbortController();
   request.once('aborted', () => controller.abort());
   response.once('close', () => {
@@ -45,6 +47,7 @@ export function createApiRouter({ geocodingService, searchService }) {
       const longitude = Number(request.body?.longitude);
       let center;
 
+      // Priorité : suggestion déjà géocodée, coordonnées saisies, puis géocodage texte.
       if (isValidCoordinate(latitude, longitude)) {
         center = {
           latitude,

@@ -1,3 +1,4 @@
+// Construction de la requête Overpass et comportement du client sans réseau réel.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { buildOverpassQuery, createOverpassClient } from '../src/services/osm.js';

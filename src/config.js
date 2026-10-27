@@ -1,3 +1,5 @@
+// Centralise la lecture de l'environnement afin que le reste du code reçoive
+// une configuration validée et directement exploitable.
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -9,6 +11,7 @@ function positiveInteger(value, fallback) {
 }
 
 function nextgisOverpassEndpoint(environment) {
+  // L'URL personnelle contient la clé NextGIS : elle n'a volontairement pas de valeur par défaut.
   const endpoint = String(environment.NEXTGIS_OVERPASS_URL ?? '').trim();
   if (!endpoint) {
     throw new Error('NEXTGIS_OVERPASS_URL doit être configurée.');

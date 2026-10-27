@@ -1,5 +1,7 @@
+// Transforme les éléments hétérogènes Overpass en POI au format métier commun.
 import { isInsideBounds, isValidCoordinate } from './bounds.js';
 
+// L'ordre exprime la priorité : une traversée cyclable ne doit pas aussi devenir piétonne.
 const CATEGORY_RULES = [
   ['traversee_cyclable', 'Traversée cyclable', (tags) =>
     (tags.highway === 'crossing' && tags.bicycle === 'yes') ||
@@ -22,6 +24,7 @@ function samePoint(first, last) {
 }
 
 function segmentLength(first, second) {
+  // Approximation plane suffisante à l'échelle locale, corrigée par la latitude moyenne.
   const averageLatitude = ((first.lat + second.lat) / 2) * (Math.PI / 180);
   const x = (second.lon - first.lon) * Math.cos(averageLatitude);
   const y = second.lat - first.lat;
@@ -79,6 +82,7 @@ function representativePoint(element) {
     ? element.geometry.filter((point) => isValidCoordinate(point.lat, point.lon))
     : [];
   if (geometry.length >= 2) {
+    // Une géométrie détaillée est prioritaire sur le centre de repli fourni par Overpass.
     return samePoint(geometry[0], geometry.at(-1))
       ? centerOfClosedWay(geometry)
       : midpointAlongLine(geometry);
@@ -102,6 +106,7 @@ export function normalizeOverpassElements(payload, { bounds } = {}) {
   for (const element of payload.elements) {
     if (!element || !['node', 'way'].includes(element.type) || element.id == null) continue;
     const technicalId = `${element.type}/${element.id}`;
+    // Overpass peut renvoyer plusieurs fois le même objet lorsqu'il correspond à plusieurs filtres.
     if (seen.has(technicalId)) continue;
 
     const classification = classifyTags(element.tags);

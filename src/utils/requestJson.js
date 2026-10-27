@@ -1,3 +1,4 @@
+// Client JSON commun aux services externes, avec une traduction d'erreurs homogène.
 import { AppError } from '../errors.js';
 
 export async function requestJson(
@@ -13,6 +14,7 @@ export async function requestJson(
 ) {
   const timeoutController = new AbortController();
   const timeout = setTimeout(() => timeoutController.abort(), timeoutMs);
+  // Le premier événement entre annulation du client et timeout interrompt fetch.
   const combinedSignal = signal
     ? AbortSignal.any([signal, timeoutController.signal])
     : timeoutController.signal;
@@ -44,6 +46,7 @@ export async function requestJson(
   } catch (error) {
     if (error instanceof AppError) throw error;
     if (error?.name === 'AbortError') {
+      // Une annulation demandée par l'appelant doit rester une annulation, pas devenir un timeout.
       if (signal?.aborted && !timeoutController.signal.aborted) throw error;
       throw new AppError('Le service distant a mis trop de temps à répondre.', {
         status: 504,

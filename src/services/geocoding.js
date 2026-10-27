@@ -1,7 +1,9 @@
+// Isole le contrat GeoGouv et expose un format d'adresse stable au reste de l'application.
 import { AppError } from '../errors.js';
 import { requestJson } from '../utils/requestJson.js';
 
 function formatGeogouvResult(result, index) {
+  // GeoGouv nomme les coordonnées x/y ; l'application utilise longitude/latitude.
   const longitude = result?.x;
   const latitude = result?.y;
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;

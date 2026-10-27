@@ -1,7 +1,9 @@
+// Référence métier JavaScript du regroupement que les étudiants pourront porter en SQL.
 export const CLUSTER_CATEGORY_THRESHOLD = 3;
 
 export function roundCoordinate(value, decimals = 3) {
   if (!Number.isFinite(value)) throw new TypeError('Coordonnée non numérique.');
+  // Arrondit les valeurs négatives de façon symétrique et élimine le -0 de JavaScript.
   const factor = 10 ** decimals;
   const rounded = Math.sign(value) * Math.round((Math.abs(value) + Number.EPSILON) * factor);
   const result = rounded / factor;
@@ -11,6 +13,7 @@ export function roundCoordinate(value, decimals = 3) {
 export function groupPois(pois, categoryThreshold = CLUSTER_CATEGORY_THRESHOLD) {
   const groups = new Map();
 
+  // Une case est identifiée par ses coordonnées arrondies à trois décimales.
   for (const poi of pois) {
     const gridLatitude = roundCoordinate(poi.latitude);
     const gridLongitude = roundCoordinate(poi.longitude);
@@ -25,6 +28,7 @@ export function groupPois(pois, categoryThreshold = CLUSTER_CATEGORY_THRESHOLD) 
     groups.set(key, group);
   }
 
+  // Le seuil porte sur les catégories distinctes, pas sur le nombre brut de POI.
   return [...groups.values()]
     .map((group) => ({
       ...group,

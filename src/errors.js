@@ -1,3 +1,4 @@
+// Erreur métier transportant le statut HTTP et le code public de l'API.
 export class AppError extends Error {
   constructor(message, { status = 500, code = 'INTERNAL_ERROR', cause } = {}) {
     super(message, { cause });
@@ -8,6 +9,7 @@ export class AppError extends Error {
 }
 
 export function publicError(error) {
+  // Seules les erreurs prévues exposent leur message ; les autres sont journalisées.
   if (error instanceof AppError) {
     return { status: error.status, body: { error: error.message, code: error.code } };
   }

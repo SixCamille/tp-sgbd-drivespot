@@ -1,3 +1,4 @@
+// Parcours d'intégration HTTP complet avec des doubles GeoGouv et Overpass hors ligne.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createApp } from '../src/app.js';

@@ -1,3 +1,4 @@
+// Traduction uniforme des erreurs HTTP, JSON, réseau et timeout.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { requestJson } from '../src/utils/requestJson.js';

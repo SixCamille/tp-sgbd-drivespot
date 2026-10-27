@@ -1,3 +1,4 @@
+// Références DOM partagées par les fonctions de rendu et les gestionnaires d'événements.
 const elements = {
   form: document.querySelector('#search-form'),
   address: document.querySelector('#address'),
@@ -11,6 +12,7 @@ const elements = {
   clusterList: document.querySelector('#cluster-list'),
 };
 
+// Carte et couches indépendantes pour pouvoir remplacer POI, clusters et périmètre séparément.
 const map = L.map('map', { preferCanvas: true }).setView([45.7578, 4.832], 14);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -25,9 +27,11 @@ let suggestionController;
 let searchController;
 let suggestionTimer;
 let requestSequence = 0;
+// Ces index relient les boutons HTML aux objets Leaflet correspondants.
 const markersById = new Map();
 const clustersById = new Map();
 
+// Les popups Leaflet utilisent des chaînes HTML : toute donnée distante y est échappée.
 function escapeHtml(value) {
   return String(value)
     .replaceAll('&', '&amp;')
@@ -58,6 +62,8 @@ function chooseSuggestion(suggestion) {
   hideSuggestions();
   elements.address.focus();
 }
+
+// --- Autocomplétion d'adresse ------------------------------------------------
 
 function renderSuggestions(suggestions) {
   elements.suggestions.replaceChildren();
@@ -95,6 +101,7 @@ async function fetchSuggestions() {
 
 elements.address.addEventListener('input', () => {
   selectedAddress = undefined;
+  // Le délai évite un appel GeoGouv à chaque frappe.
   clearTimeout(suggestionTimer);
   suggestionTimer = setTimeout(fetchSuggestions, 400);
 });
@@ -106,6 +113,8 @@ elements.address.addEventListener('keydown', (event) => {
 document.addEventListener('click', (event) => {
   if (!event.target.closest('.address-field')) hideSuggestions();
 });
+
+// --- Navigation et représentation cartographique ----------------------------
 
 function markerColor(category) {
   const colors = {
@@ -177,6 +186,7 @@ function renderClusters(clusters) {
   clusterLayer.clearLayers();
   clustersById.clear();
   for (const cluster of clusters) {
+    // Le backend regroupe par arrondi à 3 décimales, soit une case de 0,001°.
     const cellBounds = [
       [cluster.gridLatitude - 0.0005, cluster.gridLongitude - 0.0005],
       [cluster.gridLatitude + 0.0005, cluster.gridLongitude + 0.0005],
@@ -211,6 +221,8 @@ document.querySelector('#map').addEventListener('click', (event) => {
   const button = event.target.closest('[data-poi-id]');
   if (button) focusPoi(button.dataset.poiId);
 });
+
+// --- Synthèse latérale et périmètre ------------------------------------------
 
 function renderSummary(pois, clusters) {
   const counts = new Map();
@@ -295,10 +307,13 @@ function renderBounds(bounds) {
 }
 
 function afterBrowserRender() {
+  // Deux frames laissent au navigateur le temps d'appliquer les mises à jour Leaflet et DOM.
   return new Promise((resolve) => {
     requestAnimationFrame(() => requestAnimationFrame(resolve));
   });
 }
+
+// --- Parcours principal de recherche ----------------------------------------
 
 elements.form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -306,6 +321,7 @@ elements.form.addEventListener('submit', async (event) => {
   clearError();
   searchController?.abort();
   searchController = new AbortController();
+  // Le numéro de séquence empêche une ancienne réponse d'écraser la plus récente.
   const thisRequest = ++requestSequence;
   const startedAt = performance.now();
   elements.button.disabled = true;
@@ -332,6 +348,7 @@ elements.form.addEventListener('submit', async (event) => {
     renderBounds(payload.bounds);
     renderSummary(payload.pois, payload.clusters);
     elements.source.textContent = payload.source;
+    // Le chronomètre inclut volontairement le rendu, pas seulement l'appel HTTP.
     await afterBrowserRender();
     elements.time.textContent = `${Math.round(performance.now() - startedAt)} ms`;
   } catch (error) {

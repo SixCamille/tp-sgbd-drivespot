@@ -1,3 +1,4 @@
+// Contrat de l'adaptateur GeoGouv avec réponses réseau simulées.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createGeocodingService } from '../src/services/geocoding.js';

@@ -1,3 +1,4 @@
+/* Palette et règles globales */
 :root {
   color-scheme: light;
   --ink: #0b1d2d;
@@ -35,6 +36,7 @@ button {
   cursor: pointer;
 }
 
+/* En-tête et recherche d'adresse */
 .hero {
   color: var(--ink);
   background: #ffffff;
@@ -205,6 +207,7 @@ button:focus-visible {
   font-weight: 700;
 }
 
+/* Indicateurs et espace de travail principal */
 .metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -259,6 +262,7 @@ button:focus-visible {
   font-size: 0.78rem;
 }
 
+/* Résultats, catégories et clusters */
 .results-panel {
   max-height: 690px;
   padding: 1rem;
@@ -375,6 +379,7 @@ footer a {
   color: var(--red-dark);
 }
 
+/* Adaptation tablette puis mobile */
 @media (max-width: 900px) {
   .hero-inner {
     grid-template-columns: auto minmax(18rem, 1fr);

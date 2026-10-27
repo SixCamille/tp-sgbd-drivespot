@@ -1,3 +1,4 @@
+// Indépendance de l'orchestrateur vis-à-vis de l'implémentation du fournisseur de POI.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createSearchService } from '../src/services/search.js';

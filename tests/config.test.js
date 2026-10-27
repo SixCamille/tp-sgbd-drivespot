@@ -1,3 +1,4 @@
+// Validation des paramètres obligatoires sans dépendre de l'environnement local.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { loadConfig } from '../src/config.js';

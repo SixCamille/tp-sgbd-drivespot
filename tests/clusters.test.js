@@ -1,3 +1,4 @@
+// Référence du regroupement par case et du seuil de diversité métier.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { groupPois, roundCoordinate } from '../src/services/clusters.js';
