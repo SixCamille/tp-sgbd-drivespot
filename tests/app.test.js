@@ -133,3 +133,44 @@ test('une recherche vide renvoie une erreur explicite', async () => {
   });
 });
 
+test('des coordonnées JSON nulles ou vides ne sont pas converties en position 0,0', async () => {
+  await withServer(async (baseUrl) => {
+    for (const value of [null, '']) {
+      const response = await fetch(`${baseUrl}/api/search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address: '', latitude: value, longitude: value }),
+      });
+
+      assert.equal(response.status, 400);
+      assert.equal((await response.json()).code, 'INVALID_ADDRESS');
+    }
+  });
+});
+
+test('un corps JSON invalide renvoie une erreur API structurée', async () => {
+  await withServer(async (baseUrl) => {
+    const response = await fetch(`${baseUrl}/api/search`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{"address":',
+    });
+
+    assert.equal(response.status, 400);
+    assert.equal((await response.json()).code, 'MALFORMED_JSON');
+  });
+});
+
+test('un corps JSON trop volumineux renvoie une erreur API structurée', async () => {
+  await withServer(async (baseUrl) => {
+    const response = await fetch(`${baseUrl}/api/search`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address: 'a'.repeat(21_000) }),
+    });
+
+    assert.equal(response.status, 413);
+    assert.equal((await response.json()).code, 'REQUEST_TOO_LARGE');
+  });
+});
+

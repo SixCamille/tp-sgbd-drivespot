@@ -2,6 +2,7 @@
 // tandis que leurs règles métier restent dans les services et fournisseurs.
 import express from 'express';
 import { resolve } from 'node:path';
+import { apiErrorHandler } from './errors.js';
 import { createPoiProvider } from './providers/index.js';
 import { createApiRouter } from './routes/api.js';
 import { createGeocodingService } from './services/geocoding.js';
@@ -26,6 +27,8 @@ export function createApp(config, dependencies = {}) {
   app.use((_request, response) => {
     response.status(404).json({ error: 'Ressource introuvable.', code: 'NOT_FOUND' });
   });
+  // Ce dernier middleware uniformise aussi les erreurs produites par express.json().
+  app.use(apiErrorHandler);
   return app;
 }
 

@@ -1,6 +1,6 @@
 // Couche HTTP : valide les entrées, résout le centre et délègue aux services.
 import { Router } from 'express';
-import { AppError, publicError } from '../errors.js';
+import { AppError } from '../errors.js';
 import { isValidCoordinate } from '../services/bounds.js';
 
 function requestAbortSignal(request, response) {
@@ -27,53 +27,47 @@ export function createApiRouter({ geocodingService, searchService }) {
   const router = Router();
 
   router.get('/suggestions', async (request, response) => {
-    try {
-      const query = String(request.query.q ?? '');
-      if (query.trim().length < 3) return response.json({ suggestions: [] });
-      const suggestions = await geocodingService.suggest(query, {
-        signal: requestAbortSignal(request, response),
-      });
-      return response.json({ suggestions });
-    } catch (error) {
-      const result = publicError(error);
-      return response.status(result.status).json(result.body);
-    }
+    const query = String(request.query.q ?? '');
+    if (query.trim().length < 3) return response.json({ suggestions: [] });
+    const suggestions = await geocodingService.suggest(query, {
+      signal: requestAbortSignal(request, response),
+    });
+    return response.json({ suggestions });
   });
 
   router.post('/search', async (request, response) => {
-    try {
-      const signal = requestAbortSignal(request, response);
-      const latitude = Number(request.body?.latitude);
-      const longitude = Number(request.body?.longitude);
-      let center;
+    const signal = requestAbortSignal(request, response);
+    const latitude = request.body?.latitude;
+    const longitude = request.body?.longitude;
+    let center;
 
-      // Priorité : suggestion déjà géocodée, coordonnées saisies, puis géocodage texte.
-      if (isValidCoordinate(latitude, longitude)) {
-        center = {
-          latitude,
-          longitude,
-          label: String(request.body?.address || 'Position choisie'),
-        };
-      } else {
-        const address = String(request.body?.address ?? '').trim();
-        if (address.length < 3) {
-          throw new AppError('Choisissez une suggestion ou saisissez une adresse précise.', {
-            status: 400,
-            code: 'INVALID_ADDRESS',
-          });
-        }
-        const coordinates = parseCoordinates(address);
-        center = coordinates
-          ? { ...coordinates, label: `Coordonnées ${address}` }
-          : await geocodingService.geocodeFirst(address, { signal });
+    // Priorité : suggestion déjà géocodée, coordonnées saisies, puis géocodage texte.
+    if (
+      typeof latitude === 'number' &&
+      typeof longitude === 'number' &&
+      isValidCoordinate(latitude, longitude)
+    ) {
+      center = {
+        latitude,
+        longitude,
+        label: String(request.body?.address || 'Position choisie'),
+      };
+    } else {
+      const address = String(request.body?.address ?? '').trim();
+      if (address.length < 3) {
+        throw new AppError('Choisissez une suggestion ou saisissez une adresse précise.', {
+          status: 400,
+          code: 'INVALID_ADDRESS',
+        });
       }
-
-      const result = await searchService.search(center, { signal });
-      return response.json(result);
-    } catch (error) {
-      const result = publicError(error);
-      return response.status(result.status).json(result.body);
+      const coordinates = parseCoordinates(address);
+      center = coordinates
+        ? { ...coordinates, label: `Coordonnées ${address}` }
+        : await geocodingService.geocodeFirst(address, { signal });
     }
+
+    const result = await searchService.search(center, { signal });
+    return response.json(result);
   });
 
   return router;

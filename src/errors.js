@@ -24,3 +24,25 @@ export function publicError(error) {
   };
 }
 
+export function apiErrorHandler(error, _request, response, next) {
+  // Une connexion abandonnée ne peut plus recevoir de réponse et ne constitue pas une erreur serveur.
+  if (response.destroyed || error?.name === 'AbortError') return;
+  if (response.headersSent) return next(error);
+
+  if (error?.type === 'entity.parse.failed') {
+    return response.status(400).json({
+      error: 'Le corps de la requête contient un JSON invalide.',
+      code: 'MALFORMED_JSON',
+    });
+  }
+  if (error?.type === 'entity.too.large') {
+    return response.status(413).json({
+      error: 'Le corps de la requête dépasse la taille autorisée.',
+      code: 'REQUEST_TOO_LARGE',
+    });
+  }
+
+  const result = publicError(error);
+  return response.status(result.status).json(result.body);
+}
+

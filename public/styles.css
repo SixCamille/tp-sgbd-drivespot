@@ -69,32 +69,14 @@ button {
   margin: 0.35rem 0 0;
 }
 
-h1,
 h2,
 p {
   margin-top: 0;
 }
 
-h1 {
-  margin-bottom: 0;
-  max-width: none;
-  font-size: 1.35rem;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
 h2 {
   margin-bottom: 0.4rem;
   font-size: 1.25rem;
-}
-
-.eyebrow {
-  margin-bottom: 0.45rem;
-  color: inherit;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
 }
 
 main {
@@ -200,9 +182,6 @@ button:focus-visible {
 
 .error {
   font-size: 0.82rem;
-}
-
-.error {
   color: var(--red) !important;
   font-weight: 700;
 }

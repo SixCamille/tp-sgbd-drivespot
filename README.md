@@ -37,7 +37,7 @@ Le fichier .env est ignoré par Git. Aucune clé n'est nécessaire pour GeoGouv 
 
     npm test
 
-Les tests couvrent la bounding box, les nodes et ways, le sommet fermé répété, les coordonnées négatives, le seuil de trois catégories distinctes, la déduplication, les tags superposés, les réponses anormales, les timeouts et un parcours API complet sans réseau externe.
+Les tests couvrent la bounding box, les nodes et ways, les coordonnées négatives, le seuil de trois catégories distinctes, la déduplication, les tags superposés, la validation des entrées HTTP, les réponses anormales, les timeouts et un parcours API complet sans réseau externe.
 
 ## Parcours de vérification manuelle
 
@@ -96,9 +96,8 @@ La traversée cyclable est testée avant le passage piéton afin qu'un objet por
 ## Géométrie et limites
 
 - un node conserve ses coordonnées ;
-- un way ouvert utilise le point situé à mi-longueur cumulée ;
-- un way fermé utilise la moyenne de ses sommets sans répéter le dernier ;
-- le centre fourni par Overpass sert de repli si la géométrie manque ;
+- un way utilise le centre fourni par Overpass ;
+- la géométrie détaillée des ways n'est ni demandée ni interprétée ;
 - seul le point représentatif situé dans le carré est conservé ;
 - les relations OSM ne sont pas interprétées ;
 - deux objets OSM distincts décrivant le même aménagement peuvent subsister ;
@@ -108,7 +107,7 @@ La traversée cyclable est testée avant le passage piéton afin qu'un objet por
 
 Les requêtes ont un timeout, un espacement minimal côté Overpass et un user-agent configurable. Aucun endpoint de repli n'est appelé en cas d'échec. Les tests n'appellent jamais ces services : ils remplacent les réponses HTTP par des doubles contrôlés.
 
-Références de tagging vérifiées : documentation officielle [Overpass QL](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL), [highway=crossing](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dcrossing), [cycleway=crossing](https://wiki.openstreetmap.org/wiki/Tag:cycleway%3Dcrossing) et [traffic_calming](https://wiki.openstreetmap.org/wiki/Key:traffic_calming). La requête courante demande le modificateur Overpass `center` pour limiter le volume transféré. Le normaliseur accepte aussi une géométrie complète lorsqu’un autre fournisseur en transmet une.
+Références de tagging vérifiées : documentation officielle [Overpass QL](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL), [highway=crossing](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dcrossing), [cycleway=crossing](https://wiki.openstreetmap.org/wiki/Tag:cycleway%3Dcrossing) et [traffic_calming](https://wiki.openstreetmap.org/wiki/Key:traffic_calming). La requête demande le modificateur Overpass `center` afin de représenter les ways sans transférer leur géométrie complète.
 
 ## Feuille de route pour la persistance
 
