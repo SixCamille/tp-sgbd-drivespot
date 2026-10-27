@@ -2,7 +2,7 @@
 
 ## Objectif
 
-Ce dépôt fournit le socle Node.js sans base de données du TP DriveSpot. Il permet de rechercher des aménagements routiers OpenStreetMap dans un carré de 5 km, de les normaliser en POI et de calculer des clusters métier en JavaScript.
+Ce dépôt fournit le socle Node.js sans base de données du TP DriveSpot. Il permet de rechercher des aménagements routiers OpenStreetMap dans un carré de 3 km, de les normaliser en POI et de calculer des clusters métier en JavaScript.
 
 La persistance et le travail SQL sont volontairement réservés aux étudiants. Ne pas ajouter de base de données, ORM, migration, schéma SQL, vue, trigger, cache métier persistant ou benchmark automatisé de SGBD dans le socle.
 

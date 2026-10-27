@@ -5,7 +5,7 @@
 - serveur Express et interface statique ;
 - recherche OSM via Overpass ;
 - suggestions d'adresses via GeoGouv ;
-- carré de 5 km tenant compte de la latitude ;
+- carré de 3 km tenant compte de la latitude ;
 - dix catégories OSM ;
 - normalisation node, way ouvert et way fermé ;
 - déduplication et priorité traversée cyclable ;
@@ -28,7 +28,7 @@ L'application dépend de GeoGouv, Overpass et des tuiles OpenStreetMap. Leur dis
 
 ## Limites connues
 
-- approximation locale pour convertir 2,5 km en degrés ;
+- approximation locale pour convertir 1,5 km en degrés ;
 - centre d'un way fermé calculé par moyenne, pas par centroïde surfacique ;
 - repli sur le centre Overpass si une géométrie manque ;
 - relations OSM ignorées ;
