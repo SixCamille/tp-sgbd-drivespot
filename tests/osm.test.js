@@ -19,37 +19,34 @@ test('la requête Overpass couvre les tags cadrés sans demander les géométrie
   assert.match(query, /\(1,2,3,4\)/);
 });
 
-test('essaie une seconde instance Overpass après une erreur transitoire', async () => {
+test("propage l'indisponibilité de l'unique endpoint Overpass", async () => {
   const requestedUrls = [];
   const client = createOverpassClient(
     {
-      overpassEndpoints: ['https://overpass-1.test', 'https://overpass-2.test'],
+      overpassEndpoint: 'https://overpass.nextgis.test/test-key/api/interpreter',
       overpassTimeoutMs: 1_000,
       userAgent: 'DriveSpots-Test/1.0',
     },
     {
       fetchImpl: async (url) => {
         requestedUrls.push(url);
-        return requestedUrls.length === 1
-          ? { ok: false, status: 502 }
-          : { ok: true, json: async () => ({ elements: [] }) };
+        return { ok: false, status: 502 };
       },
     },
   );
 
-  assert.deepEqual(await client(bounds), { elements: [] });
+  await assert.rejects(client(bounds), (error) => error.code === 'UPSTREAM_ERROR');
   assert.deepEqual(requestedUrls, [
-    'https://overpass-1.test',
-    'https://overpass-2.test',
+    'https://overpass.nextgis.test/test-key/api/interpreter',
   ]);
 });
 
-test("ne tente pas de repli après l'annulation de la requête", async () => {
+test("propage l'annulation de la requête", async () => {
   const controller = new AbortController();
   let requestCount = 0;
   const client = createOverpassClient(
     {
-      overpassEndpoints: ['https://overpass-1.test', 'https://overpass-2.test'],
+      overpassEndpoint: 'https://overpass.nextgis.test/test-key/api/interpreter',
       overpassTimeoutMs: 1_000,
       userAgent: 'DriveSpots-Test/1.0',
     },

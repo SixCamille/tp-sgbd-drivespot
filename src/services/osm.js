@@ -22,12 +22,6 @@ const WAY_SELECTORS = new Set([
   'traffic_calming=table',
 ]);
 
-const RETRYABLE_ERROR_CODES = new Set([
-  'UPSTREAM_TIMEOUT',
-  'UPSTREAM_UNAVAILABLE',
-  'UPSTREAM_ERROR',
-]);
-
 export function buildOverpassQuery(bounds) {
   const bbox = `${bounds.south},${bounds.west},${bounds.north},${bounds.east}`;
   const statements = SELECTORS.flatMap(([key, value]) => {
@@ -42,20 +36,6 @@ export function buildOverpassQuery(bounds) {
 
 export function createOverpassClient(config, { fetchImpl = globalThis.fetch } = {}) {
   let previousRequestAt = 0;
-
-  async function requestEndpoint(endpoint, bounds, signal) {
-    return requestJson(endpoint, {
-      fetchImpl,
-      timeoutMs: config.overpassTimeoutMs,
-      signal,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        'User-Agent': config.userAgent,
-      },
-      body: new URLSearchParams({ data: buildOverpassQuery(bounds) }),
-    });
-  }
 
   return async function fetchElements(bounds, { signal } = {}) {
     const waitMs = Math.max(0, 1_200 - (Date.now() - previousRequestAt));
@@ -74,21 +54,17 @@ export function createOverpassClient(config, { fetchImpl = globalThis.fetch } = 
     }
     previousRequestAt = Date.now();
 
-    let payload;
-    let lastError;
-    for (const endpoint of config.overpassEndpoints) {
-      try {
-        payload = await requestEndpoint(endpoint, bounds, signal);
-        break;
-      } catch (error) {
-        if (signal?.aborted || error?.name === 'AbortError') throw error;
-        if (!RETRYABLE_ERROR_CODES.has(error?.code)) {
-          throw error;
-        }
-        lastError = error;
-      }
-    }
-    if (!payload) throw lastError;
+    const payload = await requestJson(config.overpassEndpoint, {
+      fetchImpl,
+      timeoutMs: config.overpassTimeoutMs,
+      signal,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'User-Agent': config.userAgent,
+      },
+      body: new URLSearchParams({ data: buildOverpassQuery(bounds) }),
+    });
     if (!Array.isArray(payload?.elements)) {
       throw new AppError('Overpass a renvoyé un format inattendu.', {
         status: 502,

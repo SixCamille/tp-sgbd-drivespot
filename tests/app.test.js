@@ -28,10 +28,12 @@ const overpassElements = [
 }));
 
 async function withServer(action) {
-  const config = loadConfig({});
+  const config = loadConfig({
+    NEXTGIS_OVERPASS_URL: 'https://overpass.nextgis.test/test-key/api/interpreter',
+  });
   const fetchImpl = async (url) => {
     const requestedUrl = new URL(url);
-    if (requestedUrl.hostname === 'overpass-api.de') {
+    if (requestedUrl.hostname === 'overpass.nextgis.test') {
       return { ok: true, json: async () => ({ elements: overpassElements }) };
     }
     const query = requestedUrl.searchParams.get('text');

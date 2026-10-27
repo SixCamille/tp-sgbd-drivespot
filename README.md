@@ -29,9 +29,9 @@ Ouvrir http://localhost:3000. L'application interroge GeoGouv pour les adresses 
 
     npm start
 
-Pour personnaliser la configuration, copier .env.example vers .env, renseigner un PUBLIC_USER_AGENT qui identifie le projet, puis relancer npm start. Node charge automatiquement ce fichier lorsqu'il existe. `NEXTGIS_OVERPASS_URL` reçoit l'URL personnelle complète fournie par NextGIS et l'application l'essaie en premier. Cette URL contient la clé et doit rester uniquement dans `.env`. `OVERPASS_ENDPOINTS` contient les instances de repli séparées par des virgules ; elles sont essayées dans l'ordre lorsqu'une instance expire, est indisponible ou renvoie une erreur HTTP.
+Pour personnaliser la configuration, copier .env.example vers .env, renseigner un PUBLIC_USER_AGENT qui identifie le projet et l'URL personnelle complète fournie par NextGIS dans `NEXTGIS_OVERPASS_URL`, puis relancer npm start. Node charge automatiquement ce fichier lorsqu'il existe. Cette URL contient la clé et doit rester uniquement dans `.env`. Elle est obligatoire : si NextGIS expire, est indisponible ou renvoie une erreur HTTP, l'erreur est renvoyée sans essayer une autre instance Overpass.
 
-Le fichier .env est ignoré par Git. Aucune clé n'est nécessaire pour GeoGouv ou Overpass.
+Le fichier .env est ignoré par Git. Aucune clé n'est nécessaire pour GeoGouv ; l'URL NextGIS ne doit jamais être commitée.
 
 ## Tests
 
@@ -106,7 +106,7 @@ La traversée cyclable est testée avant le passage piéton afin qu'un objet por
 - aucune intersection n'est inventée ;
 - la conversion kilomètres/degrés est une approximation locale.
 
-Les requêtes publiques ont un timeout, un espacement minimal côté Overpass, un repli séquentiel vers une seconde instance et un user-agent configurable. Les tests n'appellent jamais ces services : ils remplacent les réponses HTTP par des doubles contrôlés.
+Les requêtes ont un timeout, un espacement minimal côté Overpass et un user-agent configurable. Aucun endpoint de repli n'est appelé en cas d'échec. Les tests n'appellent jamais ces services : ils remplacent les réponses HTTP par des doubles contrôlés.
 
 Références de tagging vérifiées : documentation officielle [Overpass QL](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL), [highway=crossing](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dcrossing), [cycleway=crossing](https://wiki.openstreetmap.org/wiki/Tag:cycleway%3Dcrossing) et [traffic_calming](https://wiki.openstreetmap.org/wiki/Key:traffic_calming). Les deux modificateurs Overpass `geom` et `center` sont demandés : la géométrie complète est prioritaire et le centre de bounding box ne sert que de repli.
 
