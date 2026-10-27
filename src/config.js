@@ -21,15 +21,8 @@ function overpassEndpoints(environment) {
     'https://overpass-api.de/api/interpreter',
     'https://overpass.private.coffee/api/interpreter',
   ]);
-  const apiKey = String(environment.NEXTGIS_OVERPASS_API_KEY ?? '').trim();
-  if (!apiKey) return fallbacks;
-
-  const baseUrl = String(
-    environment.NEXTGIS_OVERPASS_URL ?? 'https://overpass.nextgis.com',
-  )
-    .trim()
-    .replace(/\/+$/, '');
-  const nextgisEndpoint = `${baseUrl}/${encodeURIComponent(apiKey)}/api/interpreter`;
+  const nextgisEndpoint = String(environment.NEXTGIS_OVERPASS_URL ?? '').trim();
+  if (!nextgisEndpoint) return fallbacks;
   return [nextgisEndpoint, ...fallbacks.filter((url) => url !== nextgisEndpoint)];
 }
 
