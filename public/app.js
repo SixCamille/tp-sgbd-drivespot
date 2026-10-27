@@ -7,7 +7,6 @@ const elements = {
   time: document.querySelector('#search-time'),
   source: document.querySelector('#data-source'),
   count: document.querySelector('#result-count'),
-  clusterCount: document.querySelector('#cluster-count'),
   categorySummary: document.querySelector('#category-summary'),
   clusterList: document.querySelector('#cluster-list'),
 };
@@ -197,7 +196,7 @@ function renderClusters(clusters) {
     })
       .bindPopup(
         `<div class="cluster-popup"><strong>${cluster.count} aménagements · ` +
-          `${cluster.categoryCount} types dans cette zone</strong>` +
+          `${cluster.categoryCount} types dans ce cluster</strong>` +
           `<ul>${list}</ul></div>`,
       )
       .addTo(clusterLayer);
@@ -248,7 +247,7 @@ function renderSummary(pois, clusters) {
 
   elements.clusterList.replaceChildren();
   const title = document.createElement('h3');
-  title.textContent = 'Zones variées';
+  title.textContent = 'Zones clusters';
   elements.clusterList.append(title);
   if (clusters.length === 0) {
     const empty = document.createElement('p');
@@ -261,7 +260,7 @@ function renderSummary(pois, clusters) {
     button.type = 'button';
     const heading = document.createElement('span');
     heading.textContent =
-      `Zone ${index + 1} · ${cluster.categoryCount} types · ${cluster.count} aménagements`;
+      `Cluster ${index + 1} · ${cluster.categoryCount} types · ${cluster.count} aménagements`;
     const details = document.createElement('small');
     details.className = 'cluster-categories';
     for (const category of summarizeClusterCategories(cluster)) {
@@ -278,10 +277,6 @@ function renderSummary(pois, clusters) {
     button.addEventListener('click', () => focusCluster(cluster.id));
     elements.clusterList.append(button);
   }
-
-  elements.clusterCount.textContent =
-    `${clusters.length} zone${clusters.length > 1 ? 's' : ''} ` +
-    `variée${clusters.length > 1 ? 's' : ''}`;
   elements.count.textContent = `${pois.length} aménagement${pois.length > 1 ? 's' : ''}`;
 }
 

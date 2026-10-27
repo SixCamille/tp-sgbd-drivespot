@@ -95,16 +95,6 @@ h2 {
   text-transform: uppercase;
 }
 
-.cluster-count {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: 0;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
 main {
   width: min(1440px, 100%);
   margin: 0 auto;
@@ -282,15 +272,6 @@ button:focus-visible {
   gap: 1rem;
   padding-bottom: 0.8rem;
   border-bottom: 1px solid var(--line);
-}
-
-.results-heading .eyebrow {
-  color: var(--red);
-}
-
-.cluster-count {
-  color: #775000;
-  background: var(--amber-soft);
 }
 
 .category-row {
