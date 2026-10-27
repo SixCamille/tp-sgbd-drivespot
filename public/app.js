@@ -142,6 +142,7 @@ function summarizeClusterCategories(cluster) {
   const categories = new Map();
   for (const poi of cluster.pois) {
     const current = categories.get(poi.category) ?? {
+      category: poi.category,
       label: poi.categoryLabel,
       count: 0,
     };
@@ -256,15 +257,24 @@ function renderSummary(pois, clusters) {
     elements.clusterList.append(empty);
   }
   for (const [index, cluster] of clusters.entries()) {
-    const details = summarizeClusterCategories(cluster)
-      .map((category) => `${category.label} × ${category.count}`)
-      .join(' · ');
     const button = document.createElement('button');
     button.type = 'button';
-    button.innerHTML =
-      `<span>Zone ${index + 1} · ${cluster.categoryCount} types · ` +
-      `${cluster.count} aménagements</span>` +
-      `<small>${escapeHtml(details)}</small>`;
+    const heading = document.createElement('span');
+    heading.textContent =
+      `Zone ${index + 1} · ${cluster.categoryCount} types · ${cluster.count} aménagements`;
+    const details = document.createElement('small');
+    details.className = 'cluster-categories';
+    for (const category of summarizeClusterCategories(cluster)) {
+      const item = document.createElement('span');
+      item.className = 'cluster-category';
+      const swatch = document.createElement('span');
+      swatch.className = 'category-swatch';
+      swatch.style.backgroundColor = markerColor(category.category);
+      swatch.setAttribute('aria-hidden', 'true');
+      item.append(swatch, `${category.label} × ${category.count}`);
+      details.append(item);
+    }
+    button.append(heading, details);
     button.addEventListener('click', () => focusCluster(cluster.id));
     elements.clusterList.append(button);
   }
